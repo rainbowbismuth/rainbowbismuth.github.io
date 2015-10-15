@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["HamtRc","A persistent hash array mapped trie implementation using reference counting."],["Iter","A key value iterator that iterates in an unspecified order."],["Keys","Key iterator"],["Values","Value iterator"]]});
+initSidebarItems({"struct":[["HamtRc","A persistent hash array mapped trie implementation using reference counting."],["HamtSetRc",""],["Iter","A key value iterator that iterates in an unspecified order."],["Keys","Key iterator"],["Values","Value iterator"]]});
