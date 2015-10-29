@@ -512,6 +512,13 @@ full view of all the received messages that aren&#8217;t replies.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="euphoria.data.EditMessageEvent">
+<em class="property">class </em><code class="descclassname">euphoria.data.</code><code class="descname">EditMessageEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#EditMessageEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.data.EditMessageEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#euphoria.data.MessageBased" title="euphoria.data.MessageBased"><code class="xref py py-class docutils literal"><span class="pre">euphoria.data.MessageBased</span></code></a></p>
+<p>An EditMessageEvent indicates that a message in the room has been modified or deleted.</p>
+</dd></dl>
+
+<dl class="class">
 <dt id="euphoria.data.HelloEvent">
 <em class="property">class </em><code class="descclassname">euphoria.data.</code><code class="descname">HelloEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#HelloEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.data.HelloEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -654,6 +661,20 @@ None.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="euphoria.data.MessageBased.edit_id">
+<code class="descname">edit_id</code><a class="headerlink" href="#euphoria.data.MessageBased.edit_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ID of the edit. None if this isn&#8217;t an EditMessageEvent.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="euphoria.data.MessageBased.edited">
 <code class="descname">edited</code><a class="headerlink" href="#euphoria.data.MessageBased.edited" title="Permalink to this definition">¶</a></dt>
 <dd><p>The unix timestamp of when the message was last edited. Potentially
@@ -763,6 +784,54 @@ never been edited.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.data.NetworkEvent">
+<em class="property">class </em><code class="descclassname">euphoria.data.</code><code class="descname">NetworkEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#NetworkEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.data.NetworkEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="euphoria.data.NetworkEvent.server_era">
+<code class="descname">server_era</code><a class="headerlink" href="#euphoria.data.NetworkEvent.server_era" title="Permalink to this definition">¶</a></dt>
+<dd><p>The era of the affected server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.NetworkEvent.server_id">
+<code class="descname">server_id</code><a class="headerlink" href="#euphoria.data.NetworkEvent.server_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the affected server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.NetworkEvent.type">
+<code class="descname">type</code><a class="headerlink" href="#euphoria.data.NetworkEvent.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type of network event; for now, always &#8216;partition&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
 </tr>
 </tbody>
 </table>
@@ -952,6 +1021,13 @@ flooding commands.</p>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.data.PartEvent">
+<em class="property">class </em><code class="descclassname">euphoria.data.</code><code class="descname">PartEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#PartEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.data.PartEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#euphoria.data.SessionViewBased" title="euphoria.data.SessionViewBased"><code class="xref py py-class docutils literal"><span class="pre">euphoria.data.SessionViewBased</span></code></a></p>
+<p>A PartEvent indicates a session just disconnected from the room.</p>
 </dd></dl>
 
 <dl class="class">
@@ -2213,6 +2289,68 @@ or a post, or any broadcasted event in a room that should appear in the log.</p>
 <em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">JoinEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#JoinEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.JoinEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#euphoria.data.SessionViewBased" title="euphoria.data.SessionViewBased"><code class="xref py py-class docutils literal"><span class="pre">euphoria.data.SessionViewBased</span></code></a></p>
 <p>A JoinEvent indicates a session just joined the room.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.PartEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">PartEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#PartEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.PartEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#euphoria.data.SessionViewBased" title="euphoria.data.SessionViewBased"><code class="xref py py-class docutils literal"><span class="pre">euphoria.data.SessionViewBased</span></code></a></p>
+<p>A PartEvent indicates a session just disconnected from the room.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.NetworkEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">NetworkEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#NetworkEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.NetworkEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="euphoria.NetworkEvent.server_era">
+<code class="descname">server_era</code><a class="headerlink" href="#euphoria.NetworkEvent.server_era" title="Permalink to this definition">¶</a></dt>
+<dd><p>The era of the affected server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.NetworkEvent.server_id">
+<code class="descname">server_id</code><a class="headerlink" href="#euphoria.NetworkEvent.server_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the affected server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.NetworkEvent.type">
+<code class="descname">type</code><a class="headerlink" href="#euphoria.NetworkEvent.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type of network event; for now, always &#8216;partition&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.EditMessageEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">EditMessageEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#EditMessageEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.EditMessageEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#euphoria.data.MessageBased" title="euphoria.data.MessageBased"><code class="xref py py-class docutils literal"><span class="pre">euphoria.data.MessageBased</span></code></a></p>
+<p>An EditMessageEvent indicates that a message in the room has been modified or deleted.</p>
 </dd></dl>
 
 </div>
