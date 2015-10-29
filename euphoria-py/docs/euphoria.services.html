@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>euphoria.services package &mdash; euphoria-py 0.2 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="euphoria-py 0.2 documentation" href="index.html"/>
+        <link rel="next" title="euphoria.state_machines package" href="euphoria.state_machines.html"/>
+        <link rel="prev" title="euphoria.test package" href="euphoria.test.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> euphoria-py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="euphoria.html">euphoria package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">euphoria.services package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.alloc">euphoria.services.alloc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.nick_change">euphoria.services.nick_change module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.quitter">euphoria.services.quitter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="euphoria.state_machines.html">euphoria.state_machines package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">euphoria</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">euphoria-py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>euphoria.services package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/euphoria.services.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="euphoria-services-package">
+<h1>euphoria.services package<a class="headerlink" href="#euphoria-services-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-euphoria.services.alloc">
+<span id="euphoria-services-alloc-module"></span><h2>euphoria.services.alloc module<a class="headerlink" href="#module-euphoria.services.alloc" title="Permalink to this headline">¶</a></h2>
+<p>Say !alloc to see some neat memory statistics</p>
+<dl class="function">
+<dt id="euphoria.services.alloc.display_top">
+<code class="descclassname">euphoria.services.alloc.</code><code class="descname">display_top</code><span class="sig-paren">(</span><em>snapshot</em>, <em>group_by='lineno'</em>, <em>limit=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#display_top"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.display_top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="euphoria.services.alloc.main">
+<code class="descclassname">euphoria.services.alloc.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-euphoria.services.nick_change">
+<span id="euphoria-services-nick-change-module"></span><h2>euphoria.services.nick_change module<a class="headerlink" href="#module-euphoria.services.nick_change" title="Permalink to this headline">¶</a></h2>
+<p>Say !nick new_nick to change the bots name to new_nick</p>
+<dl class="function">
+<dt id="euphoria.services.nick_change.main">
+<code class="descclassname">euphoria.services.nick_change.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/nick_change.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.nick_change.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-euphoria.services.quitter">
+<span id="euphoria-services-quitter-module"></span><h2>euphoria.services.quitter module<a class="headerlink" href="#module-euphoria.services.quitter" title="Permalink to this headline">¶</a></h2>
+<p>Say !quit to call sys.exit() and shutdown</p>
+<dl class="function">
+<dt id="euphoria.services.quitter.main">
+<code class="descclassname">euphoria.services.quitter.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/quitter.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.quitter.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-euphoria.services">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-euphoria.services" title="Permalink to this headline">¶</a></h2>
+<p>A collection of useful <a class="reference internal" href="euphoria.html#euphoria.Bot" title="euphoria.Bot"><code class="xref py py-class docutils literal"><span class="pre">euphoria.Bot</span></code></a> services.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="euphoria.state_machines.html" class="btn btn-neutral float-right" title="euphoria.state_machines package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="euphoria.test.html" class="btn btn-neutral" title="euphoria.test package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Emily A. Bellows.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

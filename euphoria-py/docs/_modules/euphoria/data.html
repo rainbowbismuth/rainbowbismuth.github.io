@@ -82,8 +82,10 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.html">euphoria package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../euphoria.services.html">euphoria.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.state_machines.html">euphoria.state_machines package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">euphoria</a></li>
 </ul>
 
             
@@ -562,6 +564,7 @@
 
 </div>
 <div class="viewcode-block" id="NetworkEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NetworkEvent">[docs]</a><span class="k">class</span> <span class="nc">NetworkEvent</span><span class="p">:</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_server_id</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;server_id&#39;</span><span class="p">]</span>
@@ -587,6 +590,7 @@
 
 <span class="sd">        :rtype: str&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_era</span>
+
 </div>
 <div class="viewcode-block" id="NickBased"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NickBased">[docs]</a><span class="k">class</span> <span class="nc">NickBased</span><span class="p">:</span>
 
@@ -623,6 +627,7 @@
 
 <span class="sd">        :rtype: str&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to</span>
+
 </div>
 <div class="viewcode-block" id="NickEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NickEvent">[docs]</a><span class="k">class</span> <span class="nc">NickEvent</span><span class="p">(</span><span class="n">NickBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A NickEvent indicates that a session successfully changed their nick.&quot;&quot;&quot;</span>
@@ -632,10 +637,12 @@
 <div class="viewcode-block" id="NickReply"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NickReply">[docs]</a><span class="k">class</span> <span class="nc">NickReply</span><span class="p">(</span><span class="n">NickBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A NickReply indicates that you successfully changed your nick.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
+
 </div>
 <div class="viewcode-block" id="SendEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SendEvent">[docs]</a><span class="k">class</span> <span class="nc">SendEvent</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A SendEvent indicates a message received by the room from another session.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
+
 </div>
 <div class="viewcode-block" id="EditMessageEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.EditMessageEvent">[docs]</a><span class="k">class</span> <span class="nc">EditMessageEvent</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An EditMessageEvent indicates that a message in the room has been modified or deleted.&quot;&quot;&quot;</span>
@@ -647,6 +654,7 @@
 </div>
 <div class="viewcode-block" id="JoinEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.JoinEvent">[docs]</a><span class="k">class</span> <span class="nc">JoinEvent</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A JoinEvent indicates a session just joined the room.&quot;&quot;&quot;</span>
+
 </div>
 <div class="viewcode-block" id="PartEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.PartEvent">[docs]</a><span class="k">class</span> <span class="nc">PartEvent</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A PartEvent indicates a session just disconnected from the room.&quot;&quot;&quot;</span>

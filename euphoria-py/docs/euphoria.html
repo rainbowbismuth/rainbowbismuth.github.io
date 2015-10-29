@@ -31,8 +31,9 @@
 
   
     <link rel="top" title="euphoria-py 0.2 documentation" href="index.html"/>
+        <link rel="up" title="euphoria" href="modules.html"/>
         <link rel="next" title="euphoria.state_machines package" href="euphoria.state_machines.html"/>
-        <link rel="prev" title="Table of Contents" href="index.html"/> 
+        <link rel="prev" title="euphoria" href="modules.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -89,6 +90,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.bot">euphoria.bot module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.client">euphoria.client module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.data">euphoria.data module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.exceptions">euphoria.exceptions module</a></li>
@@ -96,8 +98,27 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="euphoria.services.html">euphoria.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="euphoria.state_machines.html">euphoria.state_machines package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">euphoria</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">euphoria package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="euphoria.state_machines.html">euphoria.state_machines package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.bot">euphoria.bot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.client">euphoria.client module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.data">euphoria.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.exceptions">euphoria.exceptions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.stream">euphoria.stream module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-euphoria">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -127,6 +148,8 @@
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">euphoria</a> &raquo;</li>
       
     <li>euphoria package</li>
       <li class="wy-breadcrumbs-aside">
@@ -163,6 +186,181 @@
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-euphoria.bot">
+<span id="euphoria-bot-module"></span><h2>euphoria.bot module<a class="headerlink" href="#module-euphoria.bot" title="Permalink to this headline">¶</a></h2>
+<p>A high-level easy to use bot interface.</p>
+<dl class="class">
+<dt id="euphoria.bot.Bot">
+<em class="property">class </em><code class="descclassname">euphoria.bot.</code><code class="descname">Bot</code><span class="sig-paren">(</span><em>config</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>A high-level bot for euphoria.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.5)"><em>configparser.ConfigParser</em></a>) &#8211; Bot configuration</li>
+<li><strong>loop</strong> (<a class="reference external" href="https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.BaseEventLoop" title="(in Python v3.5)"><em>asyncio.BaseEventLoop</em></a>) &#8211; The asyncio event loop you want to use</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="euphoria.bot.Bot.add_service_creator">
+<code class="descname">add_service_creator</code><span class="sig-paren">(</span><em>name</em>, <em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.add_service_creator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.add_service_creator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a coroutine creating function that takes a bot under name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The short form name of the service creator</li>
+<li><strong>f</strong> &#8211; An async function that is called f(bot)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.bot.Bot.client">
+<code class="descname">client</code><a class="headerlink" href="#euphoria.bot.Bot.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the associated Client this bot is using.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Client" title="euphoria.Client">euphoria.Client</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.bot.Bot.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the bot.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.bot.Bot.config">
+<code class="descname">config</code><a class="headerlink" href="#euphoria.bot.Bot.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the ConfigParser this bot was configured with.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.5)">configparser.ConfigParser</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.bot.Bot.contains_service">
+<code class="descname">contains_service</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.contains_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.contains_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not this bot has a particular running service.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The name of the service to check</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.bot.Bot.get_service">
+<code class="descname">get_service</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.get_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.get_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrives a service&#8217;s task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The name of the service to get</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Task" title="(in Python v3.5)">asyncio.Task</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.bot.Bot.nick_and_auth">
+<code class="descname">nick_and_auth</code><a class="headerlink" href="#euphoria.bot.Bot.nick_and_auth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the associated NickAndAuth this bot is using.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="euphoria.state_machines.html#euphoria.state_machines.NickAndAuth" title="euphoria.state_machines.NickAndAuth">euphoria.state_machines.NickAndAuth</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.bot.Bot.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the bot.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.bot.Bot.start_all">
+<code class="descname">start_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.start_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.start_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start all services.</p>
+<p>Currently restarts those already started.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.bot.Bot.start_service">
+<code class="descname">start_service</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.start_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.start_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the service called name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The short form name of the service to start</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.bot.Bot.stop_all">
+<code class="descname">stop_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.stop_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.stop_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop all services.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.bot.Bot.stop_service">
+<code class="descname">stop_service</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.stop_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.stop_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the service called name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The name of the service to stop</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="euphoria.bot.main">
+<code class="descclassname">euphoria.bot.</code><code class="descname">main</code><span class="sig-paren">(</span><em>config='config.ini'</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a Bot with restarts.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-euphoria.client">
 <span id="euphoria-client-module"></span><h2>euphoria.client module<a class="headerlink" href="#module-euphoria.client" title="Permalink to this headline">¶</a></h2>
@@ -1292,13 +1490,6 @@ It also offers a snapshot of the room&#8217;s state and recent history.</p>
 <p>A baseclass for euphoria-py exceptions.</p>
 </dd></dl>
 
-<dl class="exception">
-<dt id="euphoria.exceptions.StreamEmpty">
-<em class="property">exception </em><code class="descclassname">euphoria.exceptions.</code><code class="descname">StreamEmpty</code><a class="reference internal" href="_modules/euphoria/exceptions.html#StreamEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.exceptions.StreamEmpty" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#euphoria.exceptions.EuphoriaException" title="euphoria.exceptions.EuphoriaException"><code class="xref py py-class docutils literal"><span class="pre">euphoria.exceptions.EuphoriaException</span></code></a></p>
-<p>Raised when you try to retrieve data from an empty and closed <a class="reference internal" href="#euphoria.Stream" title="euphoria.Stream"><code class="xref py py-class docutils literal"><span class="pre">euphoria.Stream</span></code></a>.</p>
-</dd></dl>
-
 </div>
 <div class="section" id="module-euphoria.stream">
 <span id="euphoria-stream-module"></span><h2>euphoria.stream module<a class="headerlink" href="#module-euphoria.stream" title="Permalink to this headline">¶</a></h2>
@@ -1327,8 +1518,8 @@ It also offers a snapshot of the room&#8217;s state and recent history.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet">euphoria.Packet</a></td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.StreamEmpty" title="euphoria.StreamEmpty">euphoria.StreamEmpty</a>:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the stream is both empty and closed</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises asyncio.CancelledError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the client is closed</td>
 </tr>
 </tbody>
 </table>
@@ -1402,8 +1593,8 @@ discarding the rest of them.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet">euphoria.Packet</a></td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.StreamEmpty" title="euphoria.StreamEmpty">euphoria.StreamEmpty</a>:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the stream is both empty and closed</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises asyncio.CancelledError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the client is closed</td>
 </tr>
 </tbody>
 </table>
@@ -1420,8 +1611,8 @@ discarding the rest of them.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet">euphoria.Packet</a></td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.StreamEmpty" title="euphoria.StreamEmpty">euphoria.StreamEmpty</a>:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the stream is both empty and closed</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises asyncio.CancelledError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the client is closed</td>
 </tr>
 </tbody>
 </table>
@@ -1727,8 +1918,8 @@ full view of all the received messages that aren&#8217;t replies.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet">euphoria.Packet</a></td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.StreamEmpty" title="euphoria.StreamEmpty">euphoria.StreamEmpty</a>:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the stream is both empty and closed</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises asyncio.CancelledError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the client is closed</td>
 </tr>
 </tbody>
 </table>
@@ -1802,8 +1993,8 @@ discarding the rest of them.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet">euphoria.Packet</a></td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.StreamEmpty" title="euphoria.StreamEmpty">euphoria.StreamEmpty</a>:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the stream is both empty and closed</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises asyncio.CancelledError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the client is closed</td>
 </tr>
 </tbody>
 </table>
@@ -1820,8 +2011,172 @@ discarding the rest of them.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet">euphoria.Packet</a></td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.StreamEmpty" title="euphoria.StreamEmpty">euphoria.StreamEmpty</a>:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the stream is both empty and closed</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises asyncio.CancelledError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the client is closed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.Bot">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">Bot</code><span class="sig-paren">(</span><em>config</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>A high-level bot for euphoria.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.5)"><em>configparser.ConfigParser</em></a>) &#8211; Bot configuration</li>
+<li><strong>loop</strong> (<a class="reference external" href="https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.BaseEventLoop" title="(in Python v3.5)"><em>asyncio.BaseEventLoop</em></a>) &#8211; The asyncio event loop you want to use</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="euphoria.Bot.add_service_creator">
+<code class="descname">add_service_creator</code><span class="sig-paren">(</span><em>name</em>, <em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.add_service_creator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.add_service_creator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a coroutine creating function that takes a bot under name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The short form name of the service creator</li>
+<li><strong>f</strong> &#8211; An async function that is called f(bot)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Bot.client">
+<code class="descname">client</code><a class="headerlink" href="#euphoria.Bot.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the associated Client this bot is using.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Client" title="euphoria.Client">euphoria.Client</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Bot.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the bot.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Bot.config">
+<code class="descname">config</code><a class="headerlink" href="#euphoria.Bot.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the ConfigParser this bot was configured with.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.5)">configparser.ConfigParser</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Bot.contains_service">
+<code class="descname">contains_service</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.contains_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.contains_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not this bot has a particular running service.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The name of the service to check</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Bot.get_service">
+<code class="descname">get_service</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.get_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.get_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrives a service&#8217;s task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The name of the service to get</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Task" title="(in Python v3.5)">asyncio.Task</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Bot.nick_and_auth">
+<code class="descname">nick_and_auth</code><a class="headerlink" href="#euphoria.Bot.nick_and_auth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the associated NickAndAuth this bot is using.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="euphoria.state_machines.html#euphoria.state_machines.NickAndAuth" title="euphoria.state_machines.NickAndAuth">euphoria.state_machines.NickAndAuth</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Bot.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the bot.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Bot.start_all">
+<code class="descname">start_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.start_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.start_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start all services.</p>
+<p>Currently restarts those already started.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Bot.start_service">
+<code class="descname">start_service</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.start_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.start_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the service called name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The short form name of the service to start</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Bot.stop_all">
+<code class="descname">stop_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.stop_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.stop_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop all services.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Bot.stop_service">
+<code class="descname">stop_service</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.stop_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.stop_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the service called name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The name of the service to stop</td>
 </tr>
 </tbody>
 </table>
@@ -1841,13 +2196,6 @@ discarding the rest of them.</p>
 <em class="property">exception </em><code class="descclassname">euphoria.</code><code class="descname">ErrorResponse</code><a class="reference internal" href="_modules/euphoria/exceptions.html#ErrorResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.ErrorResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#euphoria.exceptions.EuphoriaException" title="euphoria.exceptions.EuphoriaException"><code class="xref py py-class docutils literal"><span class="pre">euphoria.exceptions.EuphoriaException</span></code></a></p>
 <p>Raised when a <a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet"><code class="xref py py-class docutils literal"><span class="pre">euphoria.Packet</span></code></a> contains an error and you try to access its data.</p>
-</dd></dl>
-
-<dl class="exception">
-<dt id="euphoria.StreamEmpty">
-<em class="property">exception </em><code class="descclassname">euphoria.</code><code class="descname">StreamEmpty</code><a class="reference internal" href="_modules/euphoria/exceptions.html#StreamEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.StreamEmpty" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#euphoria.exceptions.EuphoriaException" title="euphoria.exceptions.EuphoriaException"><code class="xref py py-class docutils literal"><span class="pre">euphoria.exceptions.EuphoriaException</span></code></a></p>
-<p>Raised when you try to retrieve data from an empty and closed <a class="reference internal" href="#euphoria.Stream" title="euphoria.Stream"><code class="xref py py-class docutils literal"><span class="pre">euphoria.Stream</span></code></a>.</p>
 </dd></dl>
 
 <dl class="class">
@@ -2366,7 +2714,7 @@ or a post, or any broadcasted event in a room that should appear in the log.</p>
         <a href="euphoria.state_machines.html" class="btn btn-neutral float-right" title="euphoria.state_machines package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Table of Contents" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral" title="euphoria" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

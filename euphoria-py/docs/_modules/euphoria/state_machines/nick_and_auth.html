@@ -82,8 +82,10 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../euphoria.html">euphoria package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../euphoria.services.html">euphoria.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../euphoria.state_machines.html">euphoria.state_machines package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">euphoria</a></li>
 </ul>
 
             
@@ -384,12 +386,11 @@
 
                 <span class="k">elif</span> <span class="n">packet</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">BounceEvent</span><span class="p">):</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorized</span><span class="p">():</span>
-                        <span class="c"># If we were authorized we&#39;re not anymore</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: no longer authorized&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_set_authorized</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
                         <span class="k">continue</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_failed</span><span class="p">:</span>
-                        <span class="c"># If we had a failure we can&#39;t try again until we have</span>
-                        <span class="c"># a new passcode</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: auth failed, can&#39;t try again&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
                         <span class="k">continue</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;passcode&quot;</span> <span class="ow">in</span> <span class="n">packet</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">auth_options</span><span class="p">:</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: no passcode method&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
@@ -407,24 +408,27 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">_auth_failure</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
                         <span class="k">continue</span>
                     <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_authorized</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: auth successful&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
 
             <span class="k">except</span> <span class="n">ErrorResponse</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: error packet&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
                 <span class="k">continue</span>
 
     <span class="n">async</span> <span class="k">def</span> <span class="nf">_nick_setter_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: waiting for auth to set nick&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_auth</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: auth aquired, going to try to set nick&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick_is_desired</span><span class="p">():</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick_failed</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">nick_reply</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">send_nick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span> <span class="o">=</span> <span class="bp">None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_current_nick</span><span class="p">(</span><span class="n">nick_reply</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">ErrorResponse</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: error packet&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_failure</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span> <span class="o">=</span> <span class="bp">None</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_failure</span><span class="o">.</span><span class="n">set</span><span class="p">()</span></div>
 </pre></div>
 
            </div>

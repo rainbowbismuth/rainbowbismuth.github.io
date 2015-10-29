@@ -82,8 +82,10 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.html">euphoria package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../euphoria.services.html">euphoria.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.state_machines.html">euphoria.state_machines package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">euphoria</a></li>
 </ul>
 
             
@@ -203,13 +205,13 @@
 <span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.</span>
 
 <span class="sd">        :rtype: euphoria.Packet</span>
-<span class="sd">        :raises euphoria.StreamEmpty: if the stream is both empty and closed&quot;&quot;&quot;</span>
+<span class="sd">        :raises asyncio.CancelledError: if the client is closed&quot;&quot;&quot;</span>
         <span class="c"># Only one coroutine should be using a stream, so if self._waiting_on</span>
         <span class="c"># isn&#39;t None, then clearly more then one coroutine is using it.</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_waiting_on</span> <span class="ow">is</span> <span class="bp">None</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_open</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">StreamEmpty</span><span class="p">(</span><span class="s">&quot;Stream is closed and empty.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_open</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">CancelledError</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_waiting_on</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
@@ -225,7 +227,7 @@
 <span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.</span>
 
 <span class="sd">        :rtype: euphoria.Packet</span>
-<span class="sd">        :raises euphoria.StreamEmpty: if the stream is both empty and closed&quot;&quot;&quot;</span>
+<span class="sd">        :raises asyncio.CancelledError: if the client is closed&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">condition</span><span class="p">):</span>
             <span class="n">kls</span> <span class="o">=</span> <span class="n">condition</span>
             <span class="c"># TODO: change this to a def instead of a lambda</span>
@@ -244,7 +246,7 @@
 <span class="sd">         This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.</span>
 
 <span class="sd">         :rtype: euphoria.Packet</span>
-<span class="sd">         :raises euphoria.StreamEmpty: if the stream is both empty and closed&quot;&quot;&quot;</span>
+<span class="sd">         :raises asyncio.CancelledError: if the client is closed&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">condition</span><span class="p">):</span>
             <span class="n">kls</span> <span class="o">=</span> <span class="n">condition</span>
             <span class="c"># TODO: change this to a def instead of a lambda</span>
