@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>euphoria.state_machines.nick_and_auth &mdash; euphoria-py 0.2 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="euphoria-py 0.2 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> euphoria-py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../euphoria.html">euphoria package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../euphoria.state_machines.html">euphoria.state_machines package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../euphoria.test.html">euphoria.test package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">euphoria-py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>euphoria.state_machines.nick_and_auth</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for euphoria.state_machines.nick_and_auth</h1><div class="highlight"><pre>
+<span class="c"># euphoria-py</span>
+<span class="c"># Copyright (C) 2015  Emily A. Bellows</span>
+<span class="c">#</span>
+<span class="c"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c"># (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># This program is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;Nickname and authentication state machines.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">..client</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">..stream</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">..data</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">..exceptions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="c"># TODO: Take care of this detail: &quot;the server may modify the requested nick.&quot;</span>
+
+
+<div class="viewcode-block" id="NickAndAuth"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth">[docs]</a><span class="k">class</span> <span class="nc">NickAndAuth</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A state machine that controls a client&#39;s nickname and authentication.</span>
+
+<span class="sd">    :param euphoria.Client client: The client to control the nickname and authentication of.</span>
+<span class="sd">    :param str desired_nick: Your initial desired nickname.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Client</span><span class="p">,</span> <span class="n">desired_nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span> <span class="o">=</span> <span class="n">desired_nick</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">loop</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_started</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_cond</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Condition</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_failure</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_auth_cond</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Condition</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_auth_failure</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_task</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client_closer</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_close_on_client</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">_close_on_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">wait_until_closed</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Client</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the client this state machine controls.</span>
+
+<span class="sd">        :rtype: euphoria.Client&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns your desired nickname, which may not be your current one yet.</span>
+
+<span class="sd">        :rtype: str&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">_nick_notifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_cond</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_cond</span><span class="o">.</span><span class="n">notify_all</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_try_new_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_failure</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick_is_desired</span><span class="p">():</span>
+            <span class="c"># Notify everyone who was waiting for the new nickname.</span>
+            <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nick_notifier</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># We don&#39;t have the right nick, so if we&#39;re not already trying</span>
+            <span class="c"># spawn a new task to set it.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter_task</span><span class="p">(),</span>
+                                                      <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+
+    <span class="nd">@desired_nick.setter</span>
+    <span class="k">def</span> <span class="nf">desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sets your desired nickname</span>
+
+<span class="sd">        :param str new_nick: The new nickname that you want.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">new_nick</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span> <span class="o">=</span> <span class="n">new_nick</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_try_new_nick</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns your current nickname, which may not be the one you desire.</span>
+
+<span class="sd">        :rtype: str&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span>
+
+    <span class="k">def</span> <span class="nf">_set_current_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">new_nick</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span> <span class="o">=</span> <span class="n">new_nick</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_try_new_nick</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">passcode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the passcode you will try on a BounceEvent.</span>
+
+<span class="sd">        :rtype: str&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span>
+
+    <span class="nd">@passcode.setter</span>
+    <span class="k">def</span> <span class="nf">passcode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sets your passcode.</span>
+
+<span class="sd">        :param str new_code: The new passcode you want to try.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span> <span class="o">=</span> <span class="n">new_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_auth_failure</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nick_failed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether or not a NickReply returned with an error.</span>
+
+<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_failure</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="NickAndAuth.wait_until_nick_failure"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_nick_failure">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_until_nick_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wait until a NickReply returns with an error.</span>
+
+<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
+        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_failure</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">auth_failed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether or not authentication failed.</span>
+
+<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_failure</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="NickAndAuth.wait_until_auth_failure"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_auth_failure">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_until_auth_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wait until authentication fails.</span>
+
+<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
+        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_failure</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">started</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether or not this state machine has been started.</span>
+
+<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="NickAndAuth.wait_until_started"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_started">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_until_started</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wait until this state machine starts.</span>
+
+<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
+        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether or not this state machined has closed.</span>
+
+<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="NickAndAuth.close"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Close this state machine. Never to be restarted.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_task</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_task</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_task</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_closer</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client_closer</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client_closer</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="NickAndAuth.wait_until_closed"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_closed">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_until_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wait until this state machine closes.</span>
+
+<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
+        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="NickAndAuth.nick_is_desired"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.nick_is_desired">[docs]</a>    <span class="k">def</span> <span class="nf">nick_is_desired</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether or not the current nick is the desired one.</span>
+
+<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span>
+</div>
+<div class="viewcode-block" id="NickAndAuth.wait_for_nick"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_for_nick">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_for_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wait until the current nick is the desired one.</span>
+
+<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
+        <span class="n">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_cond</span><span class="p">:</span>
+            <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_cond</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nick_is_desired</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="NickAndAuth.authorized"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.authorized">[docs]</a>    <span class="k">def</span> <span class="nf">authorized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether or not the Client is authorized.</span>
+
+<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span>
+</div>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">_set_authorized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorized</span><span class="p">():</span>
+            <span class="n">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_cond</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_auth_cond</span><span class="o">.</span><span class="n">notify_all</span><span class="p">()</span>
+
+<div class="viewcode-block" id="NickAndAuth.wait_for_auth"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_for_auth">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_for_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wait until the Client is authorized.</span>
+
+<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
+        <span class="n">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_cond</span><span class="p">:</span>
+            <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_cond</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">authorized</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="NickAndAuth.start"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.start">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Start the NickAndAuth. This won&#39;t return until it has closed.</span>
+
+<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">started</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+        <span class="n">stream</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stream</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_main_loop</span><span class="p">(</span><span class="n">stream</span><span class="p">),</span>
+                                               <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+            <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_task</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</div>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">_main_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">:</span> <span class="n">Stream</span><span class="p">):</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">packet</span> <span class="o">=</span> <span class="n">await</span> <span class="n">stream</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">HelloEvent</span><span class="p">):</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">name</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_set_current_nick</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_authorized</span><span class="p">(</span><span class="ow">not</span> <span class="n">packet</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">room_is_private</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">packet</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">BounceEvent</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorized</span><span class="p">():</span>
+                        <span class="c"># If we were authorized we&#39;re not anymore</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_set_authorized</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_failed</span><span class="p">:</span>
+                        <span class="c"># If we had a failure we can&#39;t try again until we have</span>
+                        <span class="c"># a new passcode</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;passcode&quot;</span> <span class="ow">in</span> <span class="n">packet</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">auth_options</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: no passcode method&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_auth_failure</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                            <span class="s">&quot;</span><span class="si">%s</span><span class="s">: passcode needed to auth, but not provided&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_auth_failure</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+                        <span class="k">continue</span>
+                    <span class="n">auth_reply</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">send_auth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">auth_reply</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: auth failure: </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="p">,</span> <span class="n">auth_reply</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_auth_failure</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+                        <span class="k">continue</span>
+                    <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_authorized</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="n">ErrorResponse</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: error packet&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">_nick_setter_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_auth</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick_is_desired</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick_failed</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">nick_reply</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">send_nick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_current_nick</span><span class="p">(</span><span class="n">nick_reply</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ErrorResponse</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: error packet&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_failure</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span> <span class="o">=</span> <span class="bp">None</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Emily A. Bellows.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

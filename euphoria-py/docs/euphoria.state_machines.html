@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>euphoria.state_machines package &mdash; euphoria-py 0.2 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="euphoria-py 0.2 documentation" href="index.html"/>
+        <link rel="next" title="euphoria.test package" href="euphoria.test.html"/>
+        <link rel="prev" title="euphoria.test package" href="euphoria.test.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> euphoria-py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="euphoria.html">euphoria package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">euphoria.state_machines package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.state_machines.nick_and_auth">euphoria.state_machines.nick_and_auth module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.state_machines">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">euphoria-py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>euphoria.state_machines package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/euphoria.state_machines.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="euphoria-state-machines-package">
+<h1>euphoria.state_machines package<a class="headerlink" href="#euphoria-state-machines-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-euphoria.state_machines.nick_and_auth">
+<span id="euphoria-state-machines-nick-and-auth-module"></span><h2>euphoria.state_machines.nick_and_auth module<a class="headerlink" href="#module-euphoria.state_machines.nick_and_auth" title="Permalink to this headline">¶</a></h2>
+<p>Nickname and authentication state machines.</p>
+<dl class="class">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth">
+<em class="property">class </em><code class="descclassname">euphoria.state_machines.nick_and_auth.</code><code class="descname">NickAndAuth</code><span class="sig-paren">(</span><em>client</em>, <em>desired_nick</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>A state machine that controls a client&#8217;s nickname and authentication.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>client</strong> (<a class="reference internal" href="euphoria.html#euphoria.Client" title="euphoria.Client"><em>euphoria.Client</em></a>) &#8211; The client to control the nickname and authentication of.</li>
+<li><strong>desired_nick</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; Your initial desired nickname.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.auth_failed">
+<code class="descname">auth_failed</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.auth_failed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not authentication failed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.authorized">
+<code class="descname">authorized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.authorized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.authorized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not the Client is authorized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.client">
+<code class="descname">client</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the client this state machine controls.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="euphoria.html#euphoria.Client" title="euphoria.Client">euphoria.Client</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close this state machine. Never to be restarted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.closed">
+<code class="descname">closed</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not this state machined has closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.current_nick">
+<code class="descname">current_nick</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.current_nick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns your current nickname, which may not be the one you desire.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.desired_nick">
+<code class="descname">desired_nick</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.desired_nick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns your desired nickname, which may not be your current one yet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.nick_failed">
+<code class="descname">nick_failed</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.nick_failed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not a NickReply returned with an error.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.nick_is_desired">
+<code class="descname">nick_is_desired</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.nick_is_desired"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.nick_is_desired" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not the current nick is the desired one.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.passcode">
+<code class="descname">passcode</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.passcode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the passcode you will try on a BounceEvent.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the NickAndAuth. This won&#8217;t return until it has closed.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.started">
+<code class="descname">started</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.started" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not this state machine has been started.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.wait_for_auth">
+<code class="descname">wait_for_auth</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.wait_for_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_for_auth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait until the Client is authorized.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.wait_for_nick">
+<code class="descname">wait_for_nick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.wait_for_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_for_nick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait until the current nick is the desired one.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_auth_failure">
+<code class="descname">wait_until_auth_failure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.wait_until_auth_failure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_auth_failure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait until authentication fails.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_closed">
+<code class="descname">wait_until_closed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.wait_until_closed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait until this state machine closes.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_nick_failure">
+<code class="descname">wait_until_nick_failure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.wait_until_nick_failure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_nick_failure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait until a NickReply returns with an error.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_started">
+<code class="descname">wait_until_started</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.wait_until_started"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.wait_until_started" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait until this state machine starts.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-euphoria.state_machines">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-euphoria.state_machines" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="euphoria.test.html" class="btn btn-neutral float-right" title="euphoria.test package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="euphoria.test.html" class="btn btn-neutral" title="euphoria.test package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Emily A. Bellows.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,50 +1,132 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>euphoria.data &mdash; euphoria-py 0.1 documentation</title>
-    
-    <link rel="stylesheet" href="../../_static/traditional.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="euphoria-py 0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" /> 
-  </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">euphoria-py 0.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>euphoria.data &mdash; euphoria-py 0.2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="euphoria-py 0.2 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> euphoria-py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../euphoria.html">euphoria package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../euphoria.state_machines.html">euphoria.state_machines package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../euphoria.test.html">euphoria.test package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">euphoria-py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>euphoria.data</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <h1>Source code for euphoria.data</h1><div class="highlight"><pre>
 <span class="c"># euphoria-py</span>
@@ -69,7 +151,7 @@
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="Packet"><a class="viewcode-back" href="../../index.html#euphoria.Packet">[docs]</a><span class="k">class</span> <span class="nc">Packet</span><span class="p">:</span>
+<div class="viewcode-block" id="Packet"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.Packet">[docs]</a><span class="k">class</span> <span class="nc">Packet</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A message recieved from Euphoria&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
@@ -83,11 +165,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_throttled</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;throttled&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_throttled_reason</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;throttled_reason&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Packet.is_type"><a class="viewcode-back" href="../../index.html#euphoria.Packet.is_type">[docs]</a>    <span class="k">def</span> <span class="nf">is_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Packet.is_type"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.Packet.is_type">[docs]</a>    <span class="k">def</span> <span class="nf">is_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns whether or not this packet contains data of the given type.</span>
 
 <span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">type_</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">type_</span><span class="p">)</span>
 </div>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -136,7 +218,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttled_reason</span>
 
 </div>
-<span class="k">class</span> <span class="nc">SessionViewBased</span><span class="p">:</span>
+<div class="viewcode-block" id="SessionViewBased"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SessionViewBased">[docs]</a><span class="k">class</span> <span class="nc">SessionViewBased</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
@@ -196,12 +278,12 @@
 <span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_manager</span>
 
-
-<div class="viewcode-block" id="SessionView"><a class="viewcode-back" href="../../index.html#euphoria.SessionView">[docs]</a><span class="k">class</span> <span class="nc">SessionView</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
+</div>
+<div class="viewcode-block" id="SessionView"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SessionView">[docs]</a><span class="k">class</span> <span class="nc">SessionView</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A SessionView describes a session and its identity.&quot;&quot;&quot;</span>
 
 </div>
-<span class="k">class</span> <span class="nc">MessageBased</span><span class="p">:</span>
+<div class="viewcode-block" id="MessageBased"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.MessageBased">[docs]</a><span class="k">class</span> <span class="nc">MessageBased</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
@@ -289,14 +371,14 @@
 <span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_truncated</span>
 
-
-<div class="viewcode-block" id="Message"><a class="viewcode-back" href="../../index.html#euphoria.Message">[docs]</a><span class="k">class</span> <span class="nc">Message</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
+</div>
+<div class="viewcode-block" id="Message"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.Message">[docs]</a><span class="k">class</span> <span class="nc">Message</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A Message is a node in a Room&#39;s Log. It corresponds to a chat message,</span>
 <span class="sd">    or a post, or any broadcasted event in a room that should appear in the log.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="HelloEvent"><a class="viewcode-back" href="../../index.html#euphoria.HelloEvent">[docs]</a><span class="k">class</span> <span class="nc">HelloEvent</span><span class="p">:</span>
+<div class="viewcode-block" id="HelloEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.HelloEvent">[docs]</a><span class="k">class</span> <span class="nc">HelloEvent</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A HelloEvent is sent by the server to the client when a session is</span>
 <span class="sd">    started. It includes information about the client&#39;s authentication and</span>
 <span class="sd">    associated identity.&quot;&quot;&quot;</span>
@@ -353,7 +435,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
 
 </div>
-<div class="viewcode-block" id="PingEvent"><a class="viewcode-back" href="../../index.html#euphoria.PingEvent">[docs]</a><span class="k">class</span> <span class="nc">PingEvent</span><span class="p">:</span>
+<div class="viewcode-block" id="PingEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.PingEvent">[docs]</a><span class="k">class</span> <span class="nc">PingEvent</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A PingEvent represents a server-to-client ping. The client should send</span>
 <span class="sd">     back a ping-reply with the same value for the time field as soon as</span>
 <span class="sd">     possible (or risk disconnection).&quot;&quot;&quot;</span>
@@ -377,7 +459,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next</span>
 
 </div>
-<div class="viewcode-block" id="BounceEvent"><a class="viewcode-back" href="../../index.html#euphoria.BounceEvent">[docs]</a><span class="k">class</span> <span class="nc">BounceEvent</span><span class="p">:</span>
+<div class="viewcode-block" id="BounceEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.BounceEvent">[docs]</a><span class="k">class</span> <span class="nc">BounceEvent</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A BounceEvent indicates that access to a room is denied.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
@@ -396,10 +478,12 @@
         <span class="sd">&quot;&quot;&quot;A list of authentication options that may be used. Potentially None.</span>
 
 <span class="sd">        :rtype: list&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_options</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s">&quot;passcode&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_options</span>
 
 </div>
-<div class="viewcode-block" id="AuthReply"><a class="viewcode-back" href="../../index.html#euphoria.AuthReply">[docs]</a><span class="k">class</span> <span class="nc">AuthReply</span><span class="p">:</span>
+<div class="viewcode-block" id="AuthReply"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.AuthReply">[docs]</a><span class="k">class</span> <span class="nc">AuthReply</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An AuthReply reports whether the auth command succeeded.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
@@ -421,7 +505,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reason</span>
 
 </div>
-<div class="viewcode-block" id="SnapshotEvent"><a class="viewcode-back" href="../../index.html#euphoria.SnapshotEvent">[docs]</a><span class="k">class</span> <span class="nc">SnapshotEvent</span><span class="p">:</span>
+<div class="viewcode-block" id="SnapshotEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SnapshotEvent">[docs]</a><span class="k">class</span> <span class="nc">SnapshotEvent</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A SnapshotEvent indicates that a session has successfully joined a room.</span>
 <span class="sd">    It also offers a snapshot of the room&#39;s state and recent history.&quot;&quot;&quot;</span>
 
@@ -470,7 +554,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log</span>
 
 </div>
-<span class="k">class</span> <span class="nc">NickBased</span><span class="p">:</span>
+<div class="viewcode-block" id="NickBased"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NickBased">[docs]</a><span class="k">class</span> <span class="nc">NickBased</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session_id</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;session_id&#39;</span><span class="p">]</span>
@@ -506,27 +590,27 @@
 <span class="sd">        :rtype: str&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to</span>
 
-
-<div class="viewcode-block" id="NickEvent"><a class="viewcode-back" href="../../index.html#euphoria.NickEvent">[docs]</a><span class="k">class</span> <span class="nc">NickEvent</span><span class="p">(</span><span class="n">NickBased</span><span class="p">):</span>
+</div>
+<div class="viewcode-block" id="NickEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NickEvent">[docs]</a><span class="k">class</span> <span class="nc">NickEvent</span><span class="p">(</span><span class="n">NickBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A NickEvent indicates that a session successfully changed their nick.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="NickReply"><a class="viewcode-back" href="../../index.html#euphoria.NickReply">[docs]</a><span class="k">class</span> <span class="nc">NickReply</span><span class="p">(</span><span class="n">NickBased</span><span class="p">):</span>
+<div class="viewcode-block" id="NickReply"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NickReply">[docs]</a><span class="k">class</span> <span class="nc">NickReply</span><span class="p">(</span><span class="n">NickBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A NickReply indicates that you successfully changed your nick.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="SendEvent"><a class="viewcode-back" href="../../index.html#euphoria.SendEvent">[docs]</a><span class="k">class</span> <span class="nc">SendEvent</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
+<div class="viewcode-block" id="SendEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SendEvent">[docs]</a><span class="k">class</span> <span class="nc">SendEvent</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A SendEvent indicates a message received by the room from another session.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="SendReply"><a class="viewcode-back" href="../../index.html#euphoria.SendReply">[docs]</a><span class="k">class</span> <span class="nc">SendReply</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
+<div class="viewcode-block" id="SendReply"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SendReply">[docs]</a><span class="k">class</span> <span class="nc">SendReply</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A SendReply indicates that you successfully sent a message.&quot;&quot;&quot;</span>
 
 </div>
-<div class="viewcode-block" id="JoinEvent"><a class="viewcode-back" href="../../index.html#euphoria.JoinEvent">[docs]</a><span class="k">class</span> <span class="nc">JoinEvent</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
+<div class="viewcode-block" id="JoinEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.JoinEvent">[docs]</a><span class="k">class</span> <span class="nc">JoinEvent</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A JoinEvent indicates a session just joined the room.&quot;&quot;&quot;</span>
 </div>
 <span class="n">DATA_TYPES</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;hello-event&#39;</span><span class="p">:</span> <span class="n">HelloEvent</span><span class="p">,</span>
@@ -541,44 +625,62 @@
               <span class="s">&#39;join-event&#39;</span><span class="p">:</span> <span class="n">JoinEvent</span><span class="p">}</span>
 </pre></div>
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">euphoria-py 0.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Emily A. Bellows.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
-    </div>
-  </body>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>
