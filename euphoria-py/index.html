@@ -1,0 +1,1712 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>euphoria &mdash; euphoria-py 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/traditional.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="euphoria-py 0.1 documentation" href="#" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">euphoria-py 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-euphoria">
+<span id="euphoria"></span><h1>euphoria<a class="headerlink" href="#module-euphoria" title="Permalink to this headline">¶</a></h1>
+<p>Euphoria client and bot library, for Python 3.5</p>
+<dl class="class">
+<dt id="euphoria.Client">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">Client</code><span class="sig-paren">(</span><em>room</em>, <em>uri_format='wss://euphoria.io:443/room/{0}/ws'</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client" title="Permalink to this definition">¶</a></dt>
+<dd><p>A websocket client for Euphoria.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>room</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The room the client should join when started</li>
+<li><strong>loop</strong> (<a class="reference external" href="https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.BaseEventLoop" title="(in Python v3.5)"><em>asyncio.BaseEventLoop</em></a>) &#8211; The asyncio event loop you want to use</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="euphoria.Client.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the Client, never to be started again.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Client.closed">
+<code class="descname">closed</code><a class="headerlink" href="#euphoria.Client.closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether this client is closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Client.connected">
+<code class="descname">connected</code><a class="headerlink" href="#euphoria.Client.connected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether this client is connected to the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Client.loop">
+<code class="descname">loop</code><a class="headerlink" href="#euphoria.Client.loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>The asyncio event loop this client uses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.BaseEventLoop" title="(in Python v3.5)">asyncio.BaseEventLoop</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Client.room">
+<code class="descname">room</code><a class="headerlink" href="#euphoria.Client.room" title="Permalink to this definition">¶</a></dt>
+<dd><p>The room this client may be connected to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.send">
+<code class="descname">send</code><span class="sig-paren">(</span><em>content</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.send" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Sends a send command to the server. Returns a future that will</dt>
+<dd>contain a <a class="reference internal" href="#euphoria.SendReply" title="euphoria.SendReply"><code class="xref py py-class docutils literal"><span class="pre">euphoria.SendReply</span></code></a>.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>content</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The message you want this Client to say to the room</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Future" title="(in Python v3.5)">asyncio.Future</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.send_auth">
+<code class="descname">send_auth</code><span class="sig-paren">(</span><em>passcode</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.send_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.send_auth" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Sends an auth command to the server. Returns a future that will</dt>
+<dd>contain an <a class="reference internal" href="#euphoria.AuthReply" title="euphoria.AuthReply"><code class="xref py py-class docutils literal"><span class="pre">euphoria.AuthReply</span></code></a>.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>passcode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The password to the room the Client is connected to</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Future" title="(in Python v3.5)">asyncio.Future</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.send_nick">
+<code class="descname">send_nick</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.send_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.send_nick" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Sends a nick command to the server. Returns a future that will</dt>
+<dd>contain a <a class="reference internal" href="#euphoria.NickReply" title="euphoria.NickReply"><code class="xref py py-class docutils literal"><span class="pre">euphoria.NickReply</span></code></a>.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The new nick you want this Client to have</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Future" title="(in Python v3.5)">asyncio.Future</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.send_ping_reply">
+<code class="descname">send_ping_reply</code><span class="sig-paren">(</span><em>time</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.send_ping_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.send_ping_reply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a ping reply to the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)"><em>int</em></a>) &#8211; The time you got passed in a PingEvent</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the Client. This won&#8217;t return until the Client is closed.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Client.started">
+<code class="descname">started</code><a class="headerlink" href="#euphoria.Client.started" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether this client has been started.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.stream">
+<code class="descname">stream</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.stream" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Wait until the Client is connected, then return a stream that gets a</dt>
+<dd>full view of all the received messages that aren&#8217;t replies.</dd>
+</dl>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Stream" title="euphoria.Stream">euphoria.Stream</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Client.uri">
+<code class="descname">uri</code><a class="headerlink" href="#euphoria.Client.uri" title="Permalink to this definition">¶</a></dt>
+<dd><p>The URI this client will connect to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.wait_until_closed">
+<code class="descname">wait_until_closed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.wait_until_closed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.wait_until_closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Paused execution of the calling coroutine until client has closed.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.wait_until_connected">
+<code class="descname">wait_until_connected</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.wait_until_connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.wait_until_connected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pause execution of calling coroutine until client is connected.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.wait_until_started">
+<code class="descname">wait_until_started</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.wait_until_started"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.wait_until_started" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pause execution of the calling coroutine until the client has been started.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.Stream">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">Stream</code><span class="sig-paren">(</span><em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/stream.html#Stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>A stream of packets from a single Client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>loop</strong> (<a class="reference external" href="https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.BaseEventLoop" title="(in Python v3.5)"><em>asyncio.BaseEventLoop</em></a>) &#8211; The asyncio event loop you want to use</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="euphoria.Stream.any">
+<code class="descname">any</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/stream.html#Stream.any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Stream.any" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the next message from the Client.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet">euphoria.Packet</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.StreamEmpty" title="euphoria.StreamEmpty">euphoria.StreamEmpty</a>:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the stream is both empty and closed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Stream.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/stream.html#Stream.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Stream.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes this stream. Will not receive any more messages from the Client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Stream.empty">
+<code class="descname">empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/stream.html#Stream.empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Stream.empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not the Stream is currently empty.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Stream.loop">
+<code class="descname">loop</code><a class="headerlink" href="#euphoria.Stream.loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>The asyncio event loop this Stream uses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.BaseEventLoop" title="(in Python v3.5)">asyncio.BaseEventLoop</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Stream.open">
+<code class="descname">open</code><a class="headerlink" href="#euphoria.Stream.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether this stream can receive messages from the Client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Stream.select">
+<code class="descname">select</code><span class="sig-paren">(</span><em>condition</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/stream.html#Stream.select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Stream.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds a message in this stream matching the given condition, without
+discarding the rest of them.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet">euphoria.Packet</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.StreamEmpty" title="euphoria.StreamEmpty">euphoria.StreamEmpty</a>:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the stream is both empty and closed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Stream.skip_until">
+<code class="descname">skip_until</code><span class="sig-paren">(</span><em>condition</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/stream.html#Stream.skip_until"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Stream.skip_until" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discards messages in this stream until one matches condition.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet">euphoria.Packet</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.StreamEmpty" title="euphoria.StreamEmpty">euphoria.StreamEmpty</a>:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the stream is both empty and closed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="euphoria.EuphoriaException">
+<em class="property">exception </em><code class="descclassname">euphoria.</code><code class="descname">EuphoriaException</code><a class="reference internal" href="_modules/euphoria/exceptions.html#EuphoriaException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.EuphoriaException" title="Permalink to this definition">¶</a></dt>
+<dd><p>A baseclass for euphoria-py exceptions.</p>
+<dl class="method">
+<dt id="euphoria.EuphoriaException.with_traceback">
+<code class="descname">with_traceback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.EuphoriaException.with_traceback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception.with_traceback(tb) &#8211;
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="euphoria.ErrorResponse">
+<em class="property">exception </em><code class="descclassname">euphoria.</code><code class="descname">ErrorResponse</code><a class="reference internal" href="_modules/euphoria/exceptions.html#ErrorResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.ErrorResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when a <a class="reference internal" href="#euphoria.Packet" title="euphoria.Packet"><code class="xref py py-class docutils literal"><span class="pre">euphoria.Packet</span></code></a> contains an error and you try to access its data.</p>
+<dl class="method">
+<dt id="euphoria.ErrorResponse.with_traceback">
+<code class="descname">with_traceback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.ErrorResponse.with_traceback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception.with_traceback(tb) &#8211;
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="euphoria.StreamEmpty">
+<em class="property">exception </em><code class="descclassname">euphoria.</code><code class="descname">StreamEmpty</code><a class="reference internal" href="_modules/euphoria/exceptions.html#StreamEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.StreamEmpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when you try to retrieve data from an empty and closed <a class="reference internal" href="#euphoria.Stream" title="euphoria.Stream"><code class="xref py py-class docutils literal"><span class="pre">euphoria.Stream</span></code></a>.</p>
+<dl class="method">
+<dt id="euphoria.StreamEmpty.with_traceback">
+<code class="descname">with_traceback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.StreamEmpty.with_traceback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception.with_traceback(tb) &#8211;
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.Packet">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">Packet</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#Packet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Packet" title="Permalink to this definition">¶</a></dt>
+<dd><p>A message recieved from Euphoria</p>
+<dl class="attribute">
+<dt id="euphoria.Packet.data">
+<code class="descname">data</code><a class="headerlink" href="#euphoria.Packet.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the data part of the Packet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#euphoria.ErrorResponse" title="euphoria.ErrorResponse">euphoria.ErrorResponse</a>:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">if this Packet contains an error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.error">
+<code class="descname">error</code><a class="headerlink" href="#euphoria.Packet.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>An error message if a command fails. None otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.id">
+<code class="descname">id</code><a class="headerlink" href="#euphoria.Packet.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client-generated ID that associates replies with commands. Will be
+None if this Packet isn&#8217;t in response to a command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Packet.is_type">
+<code class="descname">is_type</code><span class="sig-paren">(</span><em>type_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#Packet.is_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Packet.is_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not this packet contains data of the given type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.throttled">
+<code class="descname">throttled</code><a class="headerlink" href="#euphoria.Packet.throttled" title="Permalink to this definition">¶</a></dt>
+<dd><p>This appears true in replies to warn the client that it may be
+flooding commands.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.throttled_reason">
+<code class="descname">throttled_reason</code><a class="headerlink" href="#euphoria.Packet.throttled_reason" title="Permalink to this definition">¶</a></dt>
+<dd><p>If Packet.throttled is true, then this is a string describing why.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.type">
+<code class="descname">type</code><a class="headerlink" href="#euphoria.Packet.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string name of the type of data associated with this Packet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.HelloEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">HelloEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#HelloEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.HelloEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A HelloEvent is sent by the server to the client when a session is
+started. It includes information about the client&#8217;s authentication and
+associated identity.</p>
+<dl class="attribute">
+<dt id="euphoria.HelloEvent.account">
+<code class="descname">account</code><a class="headerlink" href="#euphoria.HelloEvent.account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Details about the user&#8217;s account, if the session is logged in. None
+otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.5)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.HelloEvent.account_has_access">
+<code class="descname">account_has_access</code><a class="headerlink" href="#euphoria.HelloEvent.account_has_access" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, then the account has an explicit access grant to the current room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.HelloEvent.id">
+<code class="descname">id</code><a class="headerlink" href="#euphoria.HelloEvent.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the agent or account logged into this session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.HelloEvent.room_is_private">
+<code class="descname">room_is_private</code><a class="headerlink" href="#euphoria.HelloEvent.room_is_private" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, the session is connected to a private room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.HelloEvent.session">
+<code class="descname">session</code><a class="headerlink" href="#euphoria.HelloEvent.session" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#euphoria.SessionView" title="euphoria.SessionView"><code class="xref py py-class docutils literal"><span class="pre">euphoria.SessionView</span></code></a> describing the session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.SessionView" title="euphoria.SessionView">euphoria.SessionView</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.HelloEvent.version">
+<code class="descname">version</code><a class="headerlink" href="#euphoria.HelloEvent.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>The version of the code being run and served by the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.PingEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">PingEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#PingEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.PingEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A PingEvent represents a server-to-client ping. The client should send
+back a ping-reply with the same value for the time field as soon as
+possible (or risk disconnection).</p>
+<dl class="attribute">
+<dt id="euphoria.PingEvent.next">
+<code class="descname">next</code><a class="headerlink" href="#euphoria.PingEvent.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>The expected time of the next ping-event, according to the server&#8217;s clock.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.PingEvent.time">
+<code class="descname">time</code><a class="headerlink" href="#euphoria.PingEvent.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unix timestamp according to the server&#8217;s clock.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.BounceEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">BounceEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#BounceEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.BounceEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A BounceEvent indicates that access to a room is denied.</p>
+<dl class="attribute">
+<dt id="euphoria.BounceEvent.auth_options">
+<code class="descname">auth_options</code><a class="headerlink" href="#euphoria.BounceEvent.auth_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of authentication options that may be used. Potentially None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.5)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.BounceEvent.reason">
+<code class="descname">reason</code><a class="headerlink" href="#euphoria.BounceEvent.reason" title="Permalink to this definition">¶</a></dt>
+<dd><p>The reason why access was denied. Potentially None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.AuthReply">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">AuthReply</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#AuthReply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.AuthReply" title="Permalink to this definition">¶</a></dt>
+<dd><p>An AuthReply reports whether the auth command succeeded.</p>
+<dl class="attribute">
+<dt id="euphoria.AuthReply.reason">
+<code class="descname">reason</code><a class="headerlink" href="#euphoria.AuthReply.reason" title="Permalink to this definition">¶</a></dt>
+<dd><p>If AuthReply.success was false, the reason for failure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.AuthReply.success">
+<code class="descname">success</code><a class="headerlink" href="#euphoria.AuthReply.success" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if authentication succeeded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.SnapshotEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">SnapshotEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#SnapshotEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.SnapshotEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A SnapshotEvent indicates that a session has successfully joined a room.
+It also offers a snapshot of the room&#8217;s state and recent history.</p>
+<dl class="attribute">
+<dt id="euphoria.SnapshotEvent.identity">
+<code class="descname">identity</code><a class="headerlink" href="#euphoria.SnapshotEvent.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the agent or account logged into this session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SnapshotEvent.listing">
+<code class="descname">listing</code><a class="headerlink" href="#euphoria.SnapshotEvent.listing" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of all other sessions joined to the room (excluding this session.)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of <a class="reference internal" href="#euphoria.SessionView" title="euphoria.SessionView"><code class="xref py py-class docutils literal"><span class="pre">euphoria.SessionView</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.5)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SnapshotEvent.log">
+<code class="descname">log</code><a class="headerlink" href="#euphoria.SnapshotEvent.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>The most recent messages posted to the room (currently up to 100.)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of <a class="reference internal" href="#euphoria.Message" title="euphoria.Message"><code class="xref py py-class docutils literal"><span class="pre">euphoria.Message</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.5)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SnapshotEvent.session_id">
+<code class="descname">session_id</code><a class="headerlink" href="#euphoria.SnapshotEvent.session_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The globally unique id of this session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SnapshotEvent.version">
+<code class="descname">version</code><a class="headerlink" href="#euphoria.SnapshotEvent.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>The server&#8217;s version identifier.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.NickEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">NickEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#NickEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.NickEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A NickEvent indicates that a session successfully changed their nick.</p>
+<dl class="attribute">
+<dt id="euphoria.NickEvent.from_">
+<code class="descname">from_</code><a class="headerlink" href="#euphoria.NickEvent.from_" title="Permalink to this definition">¶</a></dt>
+<dd><p>The previous name associated with the session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.NickEvent.id">
+<code class="descname">id</code><a class="headerlink" href="#euphoria.NickEvent.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the agent or account logged into the session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.NickEvent.session_id">
+<code class="descname">session_id</code><a class="headerlink" href="#euphoria.NickEvent.session_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the session this name applies to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.NickEvent.to">
+<code class="descname">to</code><a class="headerlink" href="#euphoria.NickEvent.to" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name associated with the session henceforth.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.NickReply">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">NickReply</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#NickReply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.NickReply" title="Permalink to this definition">¶</a></dt>
+<dd><p>A NickReply indicates that you successfully changed your nick.</p>
+<dl class="attribute">
+<dt id="euphoria.NickReply.from_">
+<code class="descname">from_</code><a class="headerlink" href="#euphoria.NickReply.from_" title="Permalink to this definition">¶</a></dt>
+<dd><p>The previous name associated with the session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.NickReply.id">
+<code class="descname">id</code><a class="headerlink" href="#euphoria.NickReply.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the agent or account logged into the session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.NickReply.session_id">
+<code class="descname">session_id</code><a class="headerlink" href="#euphoria.NickReply.session_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the session this name applies to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.NickReply.to">
+<code class="descname">to</code><a class="headerlink" href="#euphoria.NickReply.to" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name associated with the session henceforth.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.Message">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">Message</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#Message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Message" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Message is a node in a Room&#8217;s Log. It corresponds to a chat message,
+or a post, or any broadcasted event in a room that should appear in the log.</p>
+<dl class="attribute">
+<dt id="euphoria.Message.content">
+<code class="descname">content</code><a class="headerlink" href="#euphoria.Message.content" title="Permalink to this definition">¶</a></dt>
+<dd><p>The content of the message (client-defined).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Message.deleted">
+<code class="descname">deleted</code><a class="headerlink" href="#euphoria.Message.deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unix timestamp of when the message was deleted. Potentially
+None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Message.edited">
+<code class="descname">edited</code><a class="headerlink" href="#euphoria.Message.edited" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unix timestamp of when the message was last edited. Potentially
+None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Message.encryption_key_id">
+<code class="descname">encryption_key_id</code><a class="headerlink" href="#euphoria.Message.encryption_key_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the key that encrypts the message in storage. Potentially
+None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Message.id">
+<code class="descname">id</code><a class="headerlink" href="#euphoria.Message.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the message (unique within a room).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Message.parent">
+<code class="descname">parent</code><a class="headerlink" href="#euphoria.Message.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the message&#8217;s parent, or None if top-level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Message.previous_edit_id">
+<code class="descname">previous_edit_id</code><a class="headerlink" href="#euphoria.Message.previous_edit_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The edit id of the most recent edit of this message, or None if it&#8217;s
+never been edited.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Message.sender">
+<code class="descname">sender</code><a class="headerlink" href="#euphoria.Message.sender" title="Permalink to this definition">¶</a></dt>
+<dd><p>The view of the sender&#8217;s session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.SessionView" title="euphoria.SessionView">euphoria.SessionView</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Message.time">
+<code class="descname">time</code><a class="headerlink" href="#euphoria.Message.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unix timestamp of when the message was posted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Message.truncated">
+<code class="descname">truncated</code><a class="headerlink" href="#euphoria.Message.truncated" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, then the full content of this message is not included.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.SendEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">SendEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#SendEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.SendEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A SendEvent indicates a message received by the room from another session.</p>
+<dl class="attribute">
+<dt id="euphoria.SendEvent.content">
+<code class="descname">content</code><a class="headerlink" href="#euphoria.SendEvent.content" title="Permalink to this definition">¶</a></dt>
+<dd><p>The content of the message (client-defined).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendEvent.deleted">
+<code class="descname">deleted</code><a class="headerlink" href="#euphoria.SendEvent.deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unix timestamp of when the message was deleted. Potentially
+None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendEvent.edited">
+<code class="descname">edited</code><a class="headerlink" href="#euphoria.SendEvent.edited" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unix timestamp of when the message was last edited. Potentially
+None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendEvent.encryption_key_id">
+<code class="descname">encryption_key_id</code><a class="headerlink" href="#euphoria.SendEvent.encryption_key_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the key that encrypts the message in storage. Potentially
+None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendEvent.id">
+<code class="descname">id</code><a class="headerlink" href="#euphoria.SendEvent.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the message (unique within a room).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendEvent.parent">
+<code class="descname">parent</code><a class="headerlink" href="#euphoria.SendEvent.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the message&#8217;s parent, or None if top-level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendEvent.previous_edit_id">
+<code class="descname">previous_edit_id</code><a class="headerlink" href="#euphoria.SendEvent.previous_edit_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The edit id of the most recent edit of this message, or None if it&#8217;s
+never been edited.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendEvent.sender">
+<code class="descname">sender</code><a class="headerlink" href="#euphoria.SendEvent.sender" title="Permalink to this definition">¶</a></dt>
+<dd><p>The view of the sender&#8217;s session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.SessionView" title="euphoria.SessionView">euphoria.SessionView</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendEvent.time">
+<code class="descname">time</code><a class="headerlink" href="#euphoria.SendEvent.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unix timestamp of when the message was posted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendEvent.truncated">
+<code class="descname">truncated</code><a class="headerlink" href="#euphoria.SendEvent.truncated" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, then the full content of this message is not included.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.SendReply">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">SendReply</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#SendReply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.SendReply" title="Permalink to this definition">¶</a></dt>
+<dd><p>A SendReply indicates that you successfully sent a message.</p>
+<dl class="attribute">
+<dt id="euphoria.SendReply.content">
+<code class="descname">content</code><a class="headerlink" href="#euphoria.SendReply.content" title="Permalink to this definition">¶</a></dt>
+<dd><p>The content of the message (client-defined).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendReply.deleted">
+<code class="descname">deleted</code><a class="headerlink" href="#euphoria.SendReply.deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unix timestamp of when the message was deleted. Potentially
+None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendReply.edited">
+<code class="descname">edited</code><a class="headerlink" href="#euphoria.SendReply.edited" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unix timestamp of when the message was last edited. Potentially
+None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendReply.encryption_key_id">
+<code class="descname">encryption_key_id</code><a class="headerlink" href="#euphoria.SendReply.encryption_key_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the key that encrypts the message in storage. Potentially
+None.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendReply.id">
+<code class="descname">id</code><a class="headerlink" href="#euphoria.SendReply.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the message (unique within a room).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendReply.parent">
+<code class="descname">parent</code><a class="headerlink" href="#euphoria.SendReply.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the message&#8217;s parent, or None if top-level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendReply.previous_edit_id">
+<code class="descname">previous_edit_id</code><a class="headerlink" href="#euphoria.SendReply.previous_edit_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The edit id of the most recent edit of this message, or None if it&#8217;s
+never been edited.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendReply.sender">
+<code class="descname">sender</code><a class="headerlink" href="#euphoria.SendReply.sender" title="Permalink to this definition">¶</a></dt>
+<dd><p>The view of the sender&#8217;s session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#euphoria.SessionView" title="euphoria.SessionView">euphoria.SessionView</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendReply.time">
+<code class="descname">time</code><a class="headerlink" href="#euphoria.SendReply.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unix timestamp of when the message was posted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.5)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SendReply.truncated">
+<code class="descname">truncated</code><a class="headerlink" href="#euphoria.SendReply.truncated" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, then the full content of this message is not included.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.SessionView">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">SessionView</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#SessionView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.SessionView" title="Permalink to this definition">¶</a></dt>
+<dd><p>A SessionView describes a session and its identity.</p>
+<dl class="attribute">
+<dt id="euphoria.SessionView.id">
+<code class="descname">id</code><a class="headerlink" href="#euphoria.SessionView.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of an agent or account.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SessionView.is_manager">
+<code class="descname">is_manager</code><a class="headerlink" href="#euphoria.SessionView.is_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, this session belongs to a manager of the room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SessionView.is_staff">
+<code class="descname">is_staff</code><a class="headerlink" href="#euphoria.SessionView.is_staff" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, this session belongs to a member of staff.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SessionView.name">
+<code class="descname">name</code><a class="headerlink" href="#euphoria.SessionView.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name-in-use at the time this view was captured.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SessionView.server_era">
+<code class="descname">server_era</code><a class="headerlink" href="#euphoria.SessionView.server_era" title="Permalink to this definition">¶</a></dt>
+<dd><p>The era of the server that captured this view.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SessionView.server_id">
+<code class="descname">server_id</code><a class="headerlink" href="#euphoria.SessionView.server_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the server that captured this view.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.SessionView.session_id">
+<code class="descname">session_id</code><a class="headerlink" href="#euphoria.SessionView.session_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>ID of the session, unique across all sessions globally.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.JoinEvent">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">JoinEvent</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#JoinEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.JoinEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A JoinEvent indicates a session just joined the room.</p>
+<dl class="attribute">
+<dt id="euphoria.JoinEvent.id">
+<code class="descname">id</code><a class="headerlink" href="#euphoria.JoinEvent.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of an agent or account.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.JoinEvent.is_manager">
+<code class="descname">is_manager</code><a class="headerlink" href="#euphoria.JoinEvent.is_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, this session belongs to a manager of the room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.JoinEvent.is_staff">
+<code class="descname">is_staff</code><a class="headerlink" href="#euphoria.JoinEvent.is_staff" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, this session belongs to a member of staff.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.JoinEvent.name">
+<code class="descname">name</code><a class="headerlink" href="#euphoria.JoinEvent.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name-in-use at the time this view was captured.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.JoinEvent.server_era">
+<code class="descname">server_era</code><a class="headerlink" href="#euphoria.JoinEvent.server_era" title="Permalink to this definition">¶</a></dt>
+<dd><p>The era of the server that captured this view.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.JoinEvent.server_id">
+<code class="descname">server_id</code><a class="headerlink" href="#euphoria.JoinEvent.server_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The id of the server that captured this view.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.JoinEvent.session_id">
+<code class="descname">session_id</code><a class="headerlink" href="#euphoria.JoinEvent.session_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>ID of the session, unique across all sessions globally.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">euphoria</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">euphoria-py 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Emily A. Bellows.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
