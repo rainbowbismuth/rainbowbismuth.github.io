@@ -147,14 +147,15 @@
 <span class="c"># You should have received a copy of the GNU General Public License</span>
 <span class="c"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">&quot;&quot;&quot;Say !alloc to see some neat memory statistics&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Say &#39;!alloc&#39; to see some neat memory statistics&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">euphoria</span> <span class="kn">import</span> <span class="n">SendEvent</span>
+<span class="kn">from</span> <span class="nn">euphoria</span> <span class="kn">import</span> <span class="n">SendEvent</span><span class="p">,</span> <span class="n">Bot</span>
 <span class="kn">import</span> <span class="nn">tracemalloc</span>
 <span class="kn">import</span> <span class="nn">linecache</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
 
 <div class="viewcode-block" id="display_top"><a class="viewcode-back" href="../../../euphoria.services.html#euphoria.services.alloc.display_top">[docs]</a><span class="k">def</span> <span class="nf">display_top</span><span class="p">(</span><span class="n">snapshot</span><span class="p">,</span> <span class="n">group_by</span><span class="o">=</span><span class="s">&#39;lineno&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
@@ -172,7 +173,7 @@
         <span class="c"># replace &quot;/path/to/module/file.py&quot; with &quot;module/file.py&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">:])</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;#</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">: </span><span class="si">%.1f</span><span class="s"> KiB&quot;</span>
-              <span class="o">%</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">lineno</span><span class="p">,</span> <span class="n">stat</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="mi">1024</span><span class="p">))</span>
+                     <span class="o">%</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">lineno</span><span class="p">,</span> <span class="n">stat</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="mi">1024</span><span class="p">))</span>
         <span class="n">line</span> <span class="o">=</span> <span class="n">linecache</span><span class="o">.</span><span class="n">getline</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">lineno</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">line</span><span class="p">:</span>
             <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;    </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">line</span><span class="p">)</span>
@@ -185,7 +186,12 @@
     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Total allocated size: </span><span class="si">%.1f</span><span class="s"> KiB&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">1024</span><span class="p">))</span>
     <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../euphoria.services.html#euphoria.services.alloc.main">[docs]</a><span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">bot</span><span class="p">):</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../euphoria.services.html#euphoria.services.alloc.main">[docs]</a><span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">bot</span><span class="p">:</span> <span class="n">Bot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Entry point into the &#39;!alloc&#39; service.</span>
+
+<span class="sd">    This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.</span>
+
+<span class="sd">    :param euphoria.Bot bot: This service&#39;s bot&quot;&quot;&quot;</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">client</span>
     <span class="n">stream</span> <span class="o">=</span> <span class="n">await</span> <span class="n">client</span><span class="o">.</span><span class="n">stream</span><span class="p">()</span>
     <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>

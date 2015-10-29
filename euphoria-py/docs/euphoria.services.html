@@ -145,7 +145,7 @@
 </div>
 <div class="section" id="module-euphoria.services.alloc">
 <span id="euphoria-services-alloc-module"></span><h2>euphoria.services.alloc module<a class="headerlink" href="#module-euphoria.services.alloc" title="Permalink to this headline">¶</a></h2>
-<p>Say !alloc to see some neat memory statistics</p>
+<p>Say &#8216;!alloc&#8217; to see some neat memory statistics</p>
 <dl class="function">
 <dt id="euphoria.services.alloc.display_top">
 <code class="descclassname">euphoria.services.alloc.</code><code class="descname">display_top</code><span class="sig-paren">(</span><em>snapshot</em>, <em>group_by='lineno'</em>, <em>limit=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#display_top"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.display_top" title="Permalink to this definition">¶</a></dt>
@@ -154,25 +154,55 @@
 <dl class="function">
 <dt id="euphoria.services.alloc.main">
 <code class="descclassname">euphoria.services.alloc.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Entry point into the &#8216;!alloc&#8217; service.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bot</strong> (<a class="reference internal" href="euphoria.html#euphoria.Bot" title="euphoria.Bot"><em>euphoria.Bot</em></a>) &#8211; This service&#8217;s bot</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-euphoria.services.nick_change">
 <span id="euphoria-services-nick-change-module"></span><h2>euphoria.services.nick_change module<a class="headerlink" href="#module-euphoria.services.nick_change" title="Permalink to this headline">¶</a></h2>
-<p>Say !nick new_nick to change the bots name to new_nick</p>
+<p>Say &#8216;!nick&#8217; new_nick to change the bots name to new_nick</p>
 <dl class="function">
 <dt id="euphoria.services.nick_change.main">
 <code class="descclassname">euphoria.services.nick_change.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/nick_change.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.nick_change.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Entry point into the !nick&#8217; service.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bot</strong> (<a class="reference internal" href="euphoria.html#euphoria.Bot" title="euphoria.Bot"><em>euphoria.Bot</em></a>) &#8211; This service&#8217;s bot</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-euphoria.services.quitter">
 <span id="euphoria-services-quitter-module"></span><h2>euphoria.services.quitter module<a class="headerlink" href="#module-euphoria.services.quitter" title="Permalink to this headline">¶</a></h2>
-<p>Say !quit to call sys.exit() and shutdown</p>
+<p>Say &#8216;!quit&#8217; to call sys.exit() and shutdown</p>
 <dl class="function">
 <dt id="euphoria.services.quitter.main">
 <code class="descclassname">euphoria.services.quitter.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/quitter.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.quitter.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Entry point into the &#8216;!quit&#8217; service.</p>
+<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bot</strong> (<a class="reference internal" href="euphoria.html#euphoria.Bot" title="euphoria.Bot"><em>euphoria.Bot</em></a>) &#8211; This service&#8217;s bot</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-euphoria.services">
