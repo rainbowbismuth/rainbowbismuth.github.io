@@ -200,7 +200,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.5)"><em>configparser.ConfigParser</em></a>) &#8211; Bot configuration</li>
+<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.5)"><em>dict</em></a>) &#8211; Bot configuration</li>
 <li><strong>loop</strong> (<a class="reference external" href="https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.BaseEventLoop" title="(in Python v3.5)"><em>asyncio.BaseEventLoop</em></a>) &#8211; The asyncio event loop you want to use</li>
 </ul>
 </td>
@@ -248,12 +248,12 @@
 <dl class="attribute">
 <dt id="euphoria.bot.Bot.config">
 <code class="descname">config</code><a class="headerlink" href="#euphoria.bot.Bot.config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the ConfigParser this bot was configured with.</p>
+<dd><p>Returns the dictionary this bot was configured with.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.5)">configparser.ConfigParser</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.5)">dict</a></td>
 </tr>
 </tbody>
 </table>
@@ -356,7 +356,7 @@
 
 <dl class="function">
 <dt id="euphoria.bot.main">
-<code class="descclassname">euphoria.bot.</code><code class="descname">main</code><span class="sig-paren">(</span><em>config_file='config.ini'</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.main" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">euphoria.bot.</code><code class="descname">main</code><span class="sig-paren">(</span><em>config_file='bot.yaml'</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a Bot with restarts.</p>
 <p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
 </dd></dl>
@@ -2030,7 +2030,7 @@ discarding the rest of them.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.5)"><em>configparser.ConfigParser</em></a>) &#8211; Bot configuration</li>
+<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.5)"><em>dict</em></a>) &#8211; Bot configuration</li>
 <li><strong>loop</strong> (<a class="reference external" href="https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.BaseEventLoop" title="(in Python v3.5)"><em>asyncio.BaseEventLoop</em></a>) &#8211; The asyncio event loop you want to use</li>
 </ul>
 </td>
@@ -2078,12 +2078,12 @@ discarding the rest of them.</p>
 <dl class="attribute">
 <dt id="euphoria.Bot.config">
 <code class="descname">config</code><a class="headerlink" href="#euphoria.Bot.config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the ConfigParser this bot was configured with.</p>
+<dd><p>Returns the dictionary this bot was configured with.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.5)">configparser.ConfigParser</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.5)">dict</a></td>
 </tr>
 </tbody>
 </table>
