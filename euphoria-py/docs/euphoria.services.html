@@ -87,6 +87,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.alloc">euphoria.services.alloc module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.nick_change">euphoria.services.nick_change module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.reminder">euphoria.services.reminder module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.quitter">euphoria.services.quitter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services">Module contents</a></li>
 </ul>
@@ -175,6 +176,31 @@
 <code class="descclassname">euphoria.services.nick_change.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/nick_change.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.nick_change.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Entry point into the !nick&#8217; service.</p>
 <p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bot</strong> (<a class="reference internal" href="euphoria.html#euphoria.Bot" title="euphoria.Bot"><em>euphoria.Bot</em></a>) &#8211; This service&#8217;s bot</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-euphoria.services.reminder">
+<span id="euphoria-services-reminder-module"></span><h2>euphoria.services.reminder module<a class="headerlink" href="#module-euphoria.services.reminder" title="Permalink to this headline">¶</a></h2>
+<p>Say &#8216;!remind 15m eat food&#8217; to be reminded in 15 minutes to eat food</p>
+<dl class="function">
+<dt id="euphoria.services.reminder.chill_and_respond">
+<code class="descclassname">euphoria.services.reminder.</code><code class="descname">chill_and_respond</code><span class="sig-paren">(</span><em>client</em>, <em>length</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reminder.html#chill_and_respond"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reminder.chill_and_respond" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="euphoria.services.reminder.main">
+<code class="descclassname">euphoria.services.reminder.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reminder.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reminder.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entry point into the &#8216;!remind&#8217; service.</p>
+<p># coroutines&gt;`_.
+This method is a <a href="#id2"><span class="problematic" id="id3">`</span></a>coroutine &lt;<a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html">https://docs.python.org/3/library/asyncio-task.html</a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
