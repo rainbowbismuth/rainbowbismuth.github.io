@@ -200,9 +200,17 @@
 <span class="sd">        :rtype: str&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">authorized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether or not you&#39;re authorized.</span>
+
+<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span>
+
 <div class="viewcode-block" id="NickAndAuth.set_desired_nick"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.set_desired_nick">[docs]</a>    <span class="k">def</span> <span class="nf">set_desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Attempt to set your current_nick to new_nick.</span>
 
+<span class="sd">        :param str new_nick: The new nickname you want to try.</span>
 <span class="sd">        :returns: A future that will contain a string error message on failure, or None.</span>
 <span class="sd">        :rtype: asyncio.Future&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span> <span class="o">=</span> <span class="n">new_nick</span>
@@ -226,6 +234,7 @@
 <div class="viewcode-block" id="NickAndAuth.set_passcode"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.set_passcode">[docs]</a>    <span class="k">def</span> <span class="nf">set_passcode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_passcode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Sets your passcode to new_passcode and attempts to authenticate if not already.</span>
 
+<span class="sd">        :param str new_passcode: The new passcode you want to try.</span>
 <span class="sd">        :returns: A future that will contain a string error message on failure, or None.</span>
 <span class="sd">        :rtype: asyncio.Future&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span> <span class="o">=</span> <span class="n">new_passcode</span>
