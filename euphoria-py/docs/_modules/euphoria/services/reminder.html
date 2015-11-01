@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>euphoria.services.reminder &mdash; euphoria-py 0.2 documentation</title>
+  <title>euphoria.services.reminder &mdash; euphoria-py 0.3 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="euphoria-py 0.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="euphoria-py 0.3 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.2
+                0.3
               </div>
             
           
@@ -171,20 +171,19 @@
     <span class="n">client</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">client</span>
     <span class="n">stream</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">stream</span><span class="p">()</span>
     <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="n">send_event</span> <span class="o">=</span> <span class="n">await</span> <span class="n">stream</span><span class="o">.</span><span class="n">skip_until</span><span class="p">(</span><span class="n">SendEvent</span><span class="p">)</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="n">send_event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">content</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">send_event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sender</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">id_</span> <span class="o">=</span> <span class="n">send_event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">id</span>
-        <span class="k">if</span> <span class="n">content</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;!remind&quot;</span><span class="p">):</span>
-            <span class="n">match</span> <span class="o">=</span> <span class="n">minute_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">await</span> <span class="n">stream</span><span class="o">.</span><span class="n">skip_until</span><span class="p">(</span><span class="n">SendEvent</span><span class="p">)</span>
+        <span class="n">send_event</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">send_event</span>
+
+        <span class="k">if</span> <span class="n">send_event</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;!remind&quot;</span><span class="p">):</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">minute_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">send_event</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
                 <span class="n">minutes</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;reminder @{0}: {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;reminder @{0}: {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">send_event</span><span class="o">.</span><span class="n">sender</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
                 <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">chill_and_respond</span><span class="p">(</span><span class="n">client</span><span class="p">,</span>
                                                         <span class="n">minutes</span> <span class="o">*</span> <span class="mi">60</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
-                <span class="n">await</span> <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;acknowledged!&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">id_</span><span class="p">)</span>
+                <span class="n">await</span> <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;acknowledged!&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">send_event</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">await</span> <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;usage: !remind 15m go on a walk&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">id_</span><span class="p">)</span>
+                <span class="n">await</span> <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;usage: !remind 15m go on a walk&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">send_event</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">continue</span></div>
 </pre></div>
@@ -220,7 +219,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.2',
+            VERSION:'0.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

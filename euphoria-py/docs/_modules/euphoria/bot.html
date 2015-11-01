@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>euphoria.bot &mdash; euphoria-py 0.2 documentation</title>
+  <title>euphoria.bot &mdash; euphoria-py 0.3 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="euphoria-py 0.2 documentation" href="../../index.html"/>
+    <link rel="top" title="euphoria-py 0.3 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.2
+                0.3
               </div>
             
           
@@ -264,8 +264,7 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">BotConfig</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">uri_format</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">handle_pings</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span> <span class="o">=</span> <span class="n">NickAndAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">nick</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">passcode</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">passcode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span> <span class="o">=</span> <span class="n">NickAndAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">nick</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">passcode</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_service_creators</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_services</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_exit_exc</span> <span class="o">=</span> <span class="bp">None</span>
@@ -388,18 +387,15 @@
 <div class="viewcode-block" id="Bot.close"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Close the bot.&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> closing&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop_all</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Bot.start"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.start">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Start the bot.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">start</span><span class="p">(),</span>
-                              <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">loop</span><span class="p">)</span>
-        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">wait_until_started</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_all</span><span class="p">()</span>
-        <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">start</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">loop</span><span class="p">)</span>
+        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 </div></div>
 <span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">&#39;bot.yml&#39;</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
@@ -407,27 +403,18 @@
 
 <span class="sd">    This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">BotConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">config_file</span><span class="p">)</span>
-    <span class="n">tries</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="n">bot</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">sys_exit</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">sys_exit</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
             <span class="n">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-            <span class="n">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">wait_until_closed</span><span class="p">()</span>
-        <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">CancelledError</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">except</span> <span class="ne">SystemExit</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="n">bot</span><span class="o">.</span><span class="n">_exit_exc</span> <span class="o">=</span> <span class="n">exc</span>
-            <span class="n">bot</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> bot crashed&quot;</span><span class="p">,</span> <span class="n">bot</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-            <span class="n">tries</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">tries</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
-                <span class="k">break</span>
-        <span class="k">finally</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">bot</span><span class="o">.</span><span class="n">_request_restart</span><span class="p">:</span>
                 <span class="k">break</span>
-
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: bot crashed&quot;</span><span class="p">,</span> <span class="n">bot</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">bot</span><span class="o">.</span><span class="n">_exit_exc</span><span class="p">:</span>
+                <span class="n">sys_exit</span> <span class="o">=</span> <span class="bp">True</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dictConfig</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;logging.yml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()))</span>
@@ -472,7 +459,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.2',
+            VERSION:'0.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

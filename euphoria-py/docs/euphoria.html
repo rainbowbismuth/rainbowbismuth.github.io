@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>euphoria package &mdash; euphoria-py 0.2 documentation</title>
+  <title>euphoria package &mdash; euphoria-py 0.3 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="euphoria-py 0.2 documentation" href="index.html"/>
+    <link rel="top" title="euphoria-py 0.3 documentation" href="index.html"/>
         <link rel="up" title="euphoria" href="modules.html"/>
         <link rel="next" title="euphoria.state_machines package" href="euphoria.state_machines.html"/>
         <link rel="prev" title="euphoria" href="modules.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.2
+                0.3
               </div>
             
           
@@ -101,24 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="euphoria.services.html">euphoria.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="euphoria.state_machines.html">euphoria.state_machines package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">euphoria</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">euphoria package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="euphoria.state_machines.html">euphoria.state_machines package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.bot">euphoria.bot module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.client">euphoria.client module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.data">euphoria.data module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.exceptions">euphoria.exceptions module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.stream">euphoria.stream module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">euphoria</a></li>
 </ul>
 
             
@@ -765,6 +748,16 @@
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>A message received from Euphoria</p>
 <dl class="attribute">
+<dt id="euphoria.data.Packet.auth_reply">
+<code class="descname">auth_reply</code><a class="headerlink" href="#euphoria.data.Packet.auth_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.bounce_event">
+<code class="descname">bounce_event</code><a class="headerlink" href="#euphoria.data.Packet.bounce_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="euphoria.data.Packet.data">
 <code class="descname">data</code><a class="headerlink" href="#euphoria.data.Packet.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the data part of the Packet.</p>
@@ -780,6 +773,11 @@
 </dd></dl>
 
 <dl class="attribute">
+<dt id="euphoria.data.Packet.edit_message_event">
+<code class="descname">edit_message_event</code><a class="headerlink" href="#euphoria.data.Packet.edit_message_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="euphoria.data.Packet.error">
 <code class="descname">error</code><a class="headerlink" href="#euphoria.data.Packet.error" title="Permalink to this definition">¶</a></dt>
 <dd><p>An error message if a command fails. None otherwise.</p>
@@ -792,6 +790,11 @@
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.hello_event">
+<code class="descname">hello_event</code><a class="headerlink" href="#euphoria.data.Packet.hello_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="euphoria.data.Packet.id">
@@ -823,6 +826,51 @@ None if this Packet isn&#8217;t in response to a command.</p>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.join_event">
+<code class="descname">join_event</code><a class="headerlink" href="#euphoria.data.Packet.join_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.network_event">
+<code class="descname">network_event</code><a class="headerlink" href="#euphoria.data.Packet.network_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.nick_event">
+<code class="descname">nick_event</code><a class="headerlink" href="#euphoria.data.Packet.nick_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.nick_reply">
+<code class="descname">nick_reply</code><a class="headerlink" href="#euphoria.data.Packet.nick_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.part_event">
+<code class="descname">part_event</code><a class="headerlink" href="#euphoria.data.Packet.part_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.ping_event">
+<code class="descname">ping_event</code><a class="headerlink" href="#euphoria.data.Packet.ping_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.send_event">
+<code class="descname">send_event</code><a class="headerlink" href="#euphoria.data.Packet.send_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.send_reply">
+<code class="descname">send_reply</code><a class="headerlink" href="#euphoria.data.Packet.send_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.snapshot_event">
+<code class="descname">snapshot_event</code><a class="headerlink" href="#euphoria.data.Packet.snapshot_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="euphoria.data.Packet.throttled">
@@ -1420,6 +1468,16 @@ discarding the rest of them.</p>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>A message received from Euphoria</p>
 <dl class="attribute">
+<dt id="euphoria.Packet.auth_reply">
+<code class="descname">auth_reply</code><a class="headerlink" href="#euphoria.Packet.auth_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.bounce_event">
+<code class="descname">bounce_event</code><a class="headerlink" href="#euphoria.Packet.bounce_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="euphoria.Packet.data">
 <code class="descname">data</code><a class="headerlink" href="#euphoria.Packet.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the data part of the Packet.</p>
@@ -1435,6 +1493,11 @@ discarding the rest of them.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="euphoria.Packet.edit_message_event">
+<code class="descname">edit_message_event</code><a class="headerlink" href="#euphoria.Packet.edit_message_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="euphoria.Packet.error">
 <code class="descname">error</code><a class="headerlink" href="#euphoria.Packet.error" title="Permalink to this definition">¶</a></dt>
 <dd><p>An error message if a command fails. None otherwise.</p>
@@ -1447,6 +1510,11 @@ discarding the rest of them.</p>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.hello_event">
+<code class="descname">hello_event</code><a class="headerlink" href="#euphoria.Packet.hello_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="euphoria.Packet.id">
@@ -1478,6 +1546,51 @@ None if this Packet isn&#8217;t in response to a command.</p>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.join_event">
+<code class="descname">join_event</code><a class="headerlink" href="#euphoria.Packet.join_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.network_event">
+<code class="descname">network_event</code><a class="headerlink" href="#euphoria.Packet.network_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.nick_event">
+<code class="descname">nick_event</code><a class="headerlink" href="#euphoria.Packet.nick_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.nick_reply">
+<code class="descname">nick_reply</code><a class="headerlink" href="#euphoria.Packet.nick_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.part_event">
+<code class="descname">part_event</code><a class="headerlink" href="#euphoria.Packet.part_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.ping_event">
+<code class="descname">ping_event</code><a class="headerlink" href="#euphoria.Packet.ping_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.send_event">
+<code class="descname">send_event</code><a class="headerlink" href="#euphoria.Packet.send_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.send_reply">
+<code class="descname">send_reply</code><a class="headerlink" href="#euphoria.Packet.send_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.snapshot_event">
+<code class="descname">snapshot_event</code><a class="headerlink" href="#euphoria.Packet.snapshot_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="euphoria.Packet.throttled">
@@ -2634,7 +2747,7 @@ discarding the rest of them.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.2',
+            VERSION:'0.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
