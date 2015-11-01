@@ -150,11 +150,16 @@
 <span class="sd">&quot;&quot;&quot;Contains all the different types you may receive from the euphoria server&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">ErrorResponse</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Packet&#39;</span><span class="p">,</span> <span class="s">&#39;SessionView&#39;</span><span class="p">,</span> <span class="s">&#39;Message&#39;</span><span class="p">,</span> <span class="s">&#39;SendEvent&#39;</span><span class="p">,</span> <span class="s">&#39;SnapshotEvent&#39;</span><span class="p">,</span> <span class="s">&#39;JoinEvent&#39;</span><span class="p">,</span> <span class="s">&#39;HelloEvent&#39;</span><span class="p">,</span> <span class="s">&#39;BounceEvent&#39;</span><span class="p">,</span>
+           <span class="s">&#39;PingEvent&#39;</span><span class="p">,</span> <span class="s">&#39;NetworkEvent&#39;</span><span class="p">,</span> <span class="s">&#39;NickEvent&#39;</span><span class="p">,</span> <span class="s">&#39;SendReply&#39;</span><span class="p">,</span> <span class="s">&#39;NickReply&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="Packet"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.Packet">[docs]</a><span class="k">class</span> <span class="nc">Packet</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A message recieved from Euphoria&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;A message received from Euphoria&quot;&quot;&quot;</span>
+
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">,</span> <span class="s">&#39;_type&#39;</span><span class="p">,</span> <span class="s">&#39;_data&#39;</span><span class="p">,</span> <span class="s">&#39;_error&#39;</span><span class="p">,</span> <span class="s">&#39;_throttled&#39;</span><span class="p">,</span> <span class="s">&#39;_throttled_reason&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
@@ -167,9 +172,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_throttled</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;throttled&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_throttled_reason</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;throttled_reason&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Packet.is_type"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.Packet.is_type">[docs]</a>    <span class="k">def</span> <span class="nf">is_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Packet.is_type"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.Packet.is_type">[docs]</a>    <span class="k">def</span> <span class="nf">is_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns whether or not this packet contains data of the given type.</span>
 
+<span class="sd">        :param type_: The type to check for</span>
 <span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">type_</span><span class="p">)</span>
 </div>
@@ -220,7 +226,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttled_reason</span>
 
 </div>
-<div class="viewcode-block" id="SessionViewBased"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SessionViewBased">[docs]</a><span class="k">class</span> <span class="nc">SessionViewBased</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">SessionViewBased</span><span class="p">:</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">,</span> <span class="s">&#39;_name&#39;</span><span class="p">,</span> <span class="s">&#39;_server_id&#39;</span><span class="p">,</span> <span class="s">&#39;_server_era&#39;</span><span class="p">,</span> <span class="s">&#39;_session_id&#39;</span><span class="p">,</span> <span class="s">&#39;_is_staff&#39;</span><span class="p">,</span> <span class="s">&#39;_is_manager&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
@@ -280,12 +287,14 @@
 <span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_manager</span>
 
-</div>
+
 <div class="viewcode-block" id="SessionView"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SessionView">[docs]</a><span class="k">class</span> <span class="nc">SessionView</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A SessionView describes a session and its identity.&quot;&quot;&quot;</span>
 
 </div>
-<div class="viewcode-block" id="MessageBased"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.MessageBased">[docs]</a><span class="k">class</span> <span class="nc">MessageBased</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">MessageBased</span><span class="p">:</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">,</span> <span class="s">&#39;_edit_id&#39;</span><span class="p">,</span> <span class="s">&#39;_parent&#39;</span><span class="p">,</span> <span class="s">&#39;_previous_edit_id&#39;</span><span class="p">,</span> <span class="s">&#39;_time&#39;</span><span class="p">,</span> <span class="s">&#39;_sender&#39;</span><span class="p">,</span> <span class="s">&#39;_content&#39;</span><span class="p">,</span>
+                 <span class="s">&#39;_encryption_key_id&#39;</span><span class="p">,</span> <span class="s">&#39;_edited&#39;</span><span class="p">,</span> <span class="s">&#39;_deleted&#39;</span><span class="p">,</span> <span class="s">&#39;_truncated&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
@@ -380,7 +389,7 @@
 <span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_truncated</span>
 
-</div>
+
 <div class="viewcode-block" id="Message"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.Message">[docs]</a><span class="k">class</span> <span class="nc">Message</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A Message is a node in a Room&#39;s Log. It corresponds to a chat message,</span>
 <span class="sd">    or a post, or any broadcasted event in a room that should appear in the log.&quot;&quot;&quot;</span>
@@ -391,6 +400,8 @@
     <span class="sd">&quot;&quot;&quot;A HelloEvent is sent by the server to the client when a session is</span>
 <span class="sd">    started. It includes information about the client&#39;s authentication and</span>
 <span class="sd">    associated identity.&quot;&quot;&quot;</span>
+
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">,</span> <span class="s">&#39;_account&#39;</span><span class="p">,</span> <span class="s">&#39;_session&#39;</span><span class="p">,</span> <span class="s">&#39;_account_has_access&#39;</span><span class="p">,</span> <span class="s">&#39;_room_is_private&#39;</span><span class="p">,</span> <span class="s">&#39;_version&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
@@ -449,6 +460,8 @@
 <span class="sd">     back a ping-reply with the same value for the time field as soon as</span>
 <span class="sd">     possible (or risk disconnection).&quot;&quot;&quot;</span>
 
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_time&#39;</span><span class="p">,</span> <span class="s">&#39;_next&#39;</span><span class="p">]</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_next</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;next&#39;</span><span class="p">]</span>
@@ -471,6 +484,8 @@
 <div class="viewcode-block" id="BounceEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.BounceEvent">[docs]</a><span class="k">class</span> <span class="nc">BounceEvent</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A BounceEvent indicates that access to a room is denied.&quot;&quot;&quot;</span>
 
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_reason&#39;</span><span class="p">,</span> <span class="s">&#39;_auth_options&#39;</span><span class="p">]</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reason</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;reason&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_auth_options</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;auth_options&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
@@ -492,8 +507,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_options</span>
 
 </div>
-<div class="viewcode-block" id="AuthReply"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.AuthReply">[docs]</a><span class="k">class</span> <span class="nc">AuthReply</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">AuthReply</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An AuthReply reports whether the auth command succeeded.&quot;&quot;&quot;</span>
+
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_success&#39;</span><span class="p">,</span> <span class="s">&#39;_reason&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_success</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;success&#39;</span><span class="p">]</span>
@@ -513,10 +530,12 @@
 <span class="sd">        :rtype: str&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reason</span>
 
-</div>
+
 <div class="viewcode-block" id="SnapshotEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SnapshotEvent">[docs]</a><span class="k">class</span> <span class="nc">SnapshotEvent</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A SnapshotEvent indicates that a session has successfully joined a room.</span>
 <span class="sd">    It also offers a snapshot of the room&#39;s state and recent history.&quot;&quot;&quot;</span>
+
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_identity&#39;</span><span class="p">,</span> <span class="s">&#39;_session_id&#39;</span><span class="p">,</span> <span class="s">&#39;_version&#39;</span><span class="p">,</span> <span class="s">&#39;_listing&#39;</span><span class="p">,</span> <span class="s">&#39;_log&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_identity</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;identity&#39;</span><span class="p">]</span>
@@ -564,6 +583,7 @@
 
 </div>
 <div class="viewcode-block" id="NetworkEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NetworkEvent">[docs]</a><span class="k">class</span> <span class="nc">NetworkEvent</span><span class="p">:</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_type&#39;</span><span class="p">,</span> <span class="s">&#39;_server_id&#39;</span><span class="p">,</span> <span class="s">&#39;_server_era&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span>
@@ -592,7 +612,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_era</span>
 
 </div>
-<div class="viewcode-block" id="NickBased"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NickBased">[docs]</a><span class="k">class</span> <span class="nc">NickBased</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">NickBased</span><span class="p">:</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_session_id&#39;</span><span class="p">,</span> <span class="s">&#39;_id&#39;</span><span class="p">,</span> <span class="s">&#39;_from&#39;</span><span class="p">,</span> <span class="s">&#39;_to&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session_id</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;session_id&#39;</span><span class="p">]</span>
@@ -628,7 +649,7 @@
 <span class="sd">        :rtype: str&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to</span>
 
-</div>
+
 <div class="viewcode-block" id="NickEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.NickEvent">[docs]</a><span class="k">class</span> <span class="nc">NickEvent</span><span class="p">(</span><span class="n">NickBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A NickEvent indicates that a session successfully changed their nick.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
@@ -644,10 +665,10 @@
     <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="EditMessageEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.EditMessageEvent">[docs]</a><span class="k">class</span> <span class="nc">EditMessageEvent</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">EditMessageEvent</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An EditMessageEvent indicates that a message in the room has been modified or deleted.&quot;&quot;&quot;</span>
 
-</div>
+
 <div class="viewcode-block" id="SendReply"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.SendReply">[docs]</a><span class="k">class</span> <span class="nc">SendReply</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A SendReply indicates that you successfully sent a message.&quot;&quot;&quot;</span>
 
@@ -656,9 +677,10 @@
     <span class="sd">&quot;&quot;&quot;A JoinEvent indicates a session just joined the room.&quot;&quot;&quot;</span>
 
 </div>
-<div class="viewcode-block" id="PartEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.PartEvent">[docs]</a><span class="k">class</span> <span class="nc">PartEvent</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">PartEvent</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A PartEvent indicates a session just disconnected from the room.&quot;&quot;&quot;</span>
-</div>
+
+
 <span class="n">DATA_TYPES</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;hello-event&#39;</span><span class="p">:</span> <span class="n">HelloEvent</span><span class="p">,</span>
               <span class="s">&#39;snapshot-event&#39;</span><span class="p">:</span> <span class="n">SnapshotEvent</span><span class="p">,</span>
               <span class="s">&#39;ping-event&#39;</span><span class="p">:</span> <span class="n">PingEvent</span><span class="p">,</span>

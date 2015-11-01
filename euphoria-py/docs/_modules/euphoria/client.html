@@ -150,15 +150,17 @@
 <span class="sd">&quot;&quot;&quot;Contains the class that lets you connect to an euphoria server&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">BaseEventLoop</span><span class="p">,</span> <span class="n">Future</span>
-<span class="kn">import</span> <span class="nn">websockets</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
+<span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">Future</span><span class="p">,</span> <span class="n">AbstractEventLoop</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.data</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.stream</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">websockets</span>
+
+<span class="kn">from</span> <span class="nn">euphoria</span> <span class="kn">import</span> <span class="n">Stream</span><span class="p">,</span> <span class="n">Packet</span><span class="p">,</span> <span class="n">PingEvent</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Client&#39;</span><span class="p">]</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
@@ -169,11 +171,11 @@
     <span class="sd">&quot;&quot;&quot;A websocket client for Euphoria.</span>
 
 <span class="sd">    :param str room: The room the client should join when started</span>
-<span class="sd">    :param asyncio.BaseEventLoop loop: The asyncio event loop you want to use</span>
+<span class="sd">    :param asyncio.AbstractEventLoop loop: The asyncio event loop you want to use</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">uri_format</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">EUPHORIA_URL</span><span class="p">,</span>
-                 <span class="n">handle_pings</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">BaseEventLoop</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">uri_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">EUPHORIA_URL</span><span class="p">,</span>
+                 <span class="n">handle_pings</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_handle_pings</span> <span class="o">=</span> <span class="n">handle_pings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_incoming</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
@@ -210,10 +212,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uri</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseEventLoop</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractEventLoop</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The asyncio event loop this client uses.</span>
 
-<span class="sd">        :rtype: asyncio.BaseEventLoop&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: asyncio.AbstractEventLoop&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span>
 
     <span class="nd">@property</span>
@@ -290,18 +292,14 @@
 
         <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">close_task</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Client.stream"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.stream">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stream</span><span class="p">:</span>
+<div class="viewcode-block" id="Client.stream"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.stream">[docs]</a>    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stream</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a Stream of messages to the Client.</span>
-
-<span class="sd">        Waits until the Client is connected, then return a stream that gets a</span>
-<span class="sd">        full view of all the received messages that aren&#39;t replies.</span>
-
-<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.</span>
 
 <span class="sd">        :rtype: euphoria.Stream&quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span>
-        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait_until_connected</span><span class="p">()</span>
         <span class="n">stream</span> <span class="o">=</span> <span class="n">Stream</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">_connect</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stream</span>
 </div>
@@ -320,6 +318,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_recv_loop</span><span class="p">(),</span>
                                                <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">:</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">_connect</span><span class="p">()</span>
+
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> connected&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -374,11 +376,11 @@
 
     <span class="k">def</span> <span class="nf">_next_id_and_future</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Future</span><span class="p">]:</span>
         <span class="c"># Generate a new ID to put into a message we are about to send, and</span>
-        <span class="c"># a corresponding future to recieve the eventual reply from the server.</span>
+        <span class="c"># a corresponding future to receive the eventual reply from the server.</span>
         <span class="n">id_</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_next_msg_id</span><span class="p">)</span>
         <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reply_map</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span> <span class="o">=</span> <span class="n">future</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">future</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">id_</span><span class="p">,</span> <span class="n">future</span>
 
     <span class="k">def</span> <span class="nf">_take_reply_future</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
         <span class="c"># If there is a future for this ID, then we retrieve it and remove it</span>
@@ -429,7 +431,7 @@
                                               <span class="p">{</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;passcode&quot;</span><span class="p">,</span>
                                                <span class="s">&quot;passcode&quot;</span><span class="p">:</span> <span class="n">passcode</span><span class="p">})</span>
 </div>
-<div class="viewcode-block" id="Client.send"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
+<div class="viewcode-block" id="Client.send"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Sends a send command to the server.</span>
 
 <span class="sd">        :param str content: The message you want this Client to say to the room</span>

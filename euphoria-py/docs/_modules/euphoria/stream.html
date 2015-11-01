@@ -150,10 +150,12 @@
 <span class="sd">&quot;&quot;&quot;Contains a class that makes it easy to process streams of packets&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">BaseEventLoop</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">AbstractEventLoop</span>
+
 <span class="kn">from</span> <span class="nn">.data</span> <span class="kn">import</span> <span class="n">Packet</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Stream&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="Stream"><a class="viewcode-back" href="../../euphoria.html#euphoria.stream.Stream">[docs]</a><span class="k">class</span> <span class="nc">Stream</span><span class="p">:</span>
@@ -161,43 +163,68 @@
 
 <span class="sd">    :param asyncio.BaseEventLoop loop: The asyncio event loop you want to use&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">BaseEventLoop</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span> <span class="o">=</span> <span class="n">loop</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client_open</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_waiting_on</span> <span class="o">=</span> <span class="bp">None</span>
 
+    <span class="k">def</span> <span class="nf">_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
     <span class="k">def</span> <span class="nf">_send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="p">:</span> <span class="n">Packet</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
         <span class="c"># This is used by Client&#39;s receive loop to put an item into the Stream.</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Stream.close"><a class="viewcode-back" href="../../euphoria.html#euphoria.stream.Stream.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Closes this stream. Will not receive any more messages from the Client.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client_open</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_waiting_on</span><span class="p">:</span>
             <span class="c"># If there&#39;s somebody waiting inside a Stream.any() we have to</span>
             <span class="c"># cancel them because no more messages are coming.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_waiting_on</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
 </div>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseEventLoop</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractEventLoop</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The asyncio event loop this Stream uses.</span>
 
 <span class="sd">        :rtype: asyncio.BaseEventLoop&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns whether this stream can receive messages from the Client.</span>
 
 <span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_open</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether this stream is connected and not closed.</span>
+
+<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether this stream has been closed.</span>
+
+<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span>
 
 <div class="viewcode-block" id="Stream.empty"><a class="viewcode-back" href="../../euphoria.html#euphoria.stream.Stream.empty">[docs]</a>    <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns whether or not the Stream is currently empty.</span>
 
 <span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Stream.wait_until_connected"><a class="viewcode-back" href="../../euphoria.html#euphoria.stream.Stream.wait_until_connected">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_until_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Stream.any"><a class="viewcode-back" href="../../euphoria.html#euphoria.stream.Stream.any">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">any</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Packet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the next message from the Client.</span>
@@ -210,7 +237,9 @@
         <span class="c"># isn&#39;t None, then clearly more then one coroutine is using it.</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_waiting_on</span> <span class="ow">is</span> <span class="bp">None</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_open</span><span class="p">:</span>
+        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait_until_connected</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">CancelledError</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_waiting_on</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span>
