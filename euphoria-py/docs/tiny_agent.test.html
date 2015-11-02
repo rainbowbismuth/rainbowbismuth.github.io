@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tiny_agent.test package &mdash; euphoria-py 0.7 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="euphoria-py 0.7 documentation" href="index.html"/>
+        <link rel="up" title="tiny_agent package" href="tiny_agent.html"/>
+        <link rel="prev" title="tiny_agent package" href="tiny_agent.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> euphoria-py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="euphoria.html">euphoria package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euphoria.services.html">euphoria.services package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euphoria.state_machines.html">euphoria.state_machines package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tiny_agent.html">tiny_agent package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">tiny_agent.test package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tiny_agent.test.test_agent">tiny_agent.test.test_agent module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tiny_agent.test.test_supervisor">tiny_agent.test.test_supervisor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tiny_agent.test">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">euphoria</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">euphoria-py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">euphoria</a> &raquo;</li>
+      
+          <li><a href="tiny_agent.html">tiny_agent package</a> &raquo;</li>
+      
+    <li>tiny_agent.test package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/tiny_agent.test.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tiny-agent-test-package">
+<h1>tiny_agent.test package<a class="headerlink" href="#tiny-agent-test-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-tiny_agent.test.test_agent">
+<span id="tiny-agent-test-test-agent-module"></span><h2>tiny_agent.test.test_agent module<a class="headerlink" href="#module-tiny_agent.test.test_agent" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tiny_agent.test.test_agent.Counter">
+<em class="property">class </em><code class="descclassname">tiny_agent.test.test_agent.</code><code class="descname">Counter</code><span class="sig-paren">(</span><em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_agent.html#Counter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_agent.Counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+<dl class="method">
+<dt id="tiny_agent.test.test_agent.Counter.current">
+<code class="descname">current</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#tiny_agent.test.test_agent.Counter.current" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Future</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tiny_agent.test.test_agent.Counter.increment">
+<code class="descname">increment</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#tiny_agent.test.test_agent.Counter.increment" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="tiny_agent.test.test_agent.test_counter">
+<code class="descclassname">tiny_agent.test.test_agent.</code><code class="descname">test_counter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_agent.html#test_counter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_agent.test_counter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-tiny_agent.test.test_supervisor">
+<span id="tiny-agent-test-test-supervisor-module"></span><h2>tiny_agent.test.test_supervisor module<a class="headerlink" href="#module-tiny_agent.test.test_supervisor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tiny_agent.test.test_supervisor.Bomb">
+<em class="property">class </em><code class="descclassname">tiny_agent.test.test_supervisor.</code><code class="descname">Bomb</code><span class="sig-paren">(</span><em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_supervisor.html#Bomb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_supervisor.Bomb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+<dl class="method">
+<dt id="tiny_agent.test.test_supervisor.Bomb.explode">
+<code class="descname">explode</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#tiny_agent.test.test_supervisor.Bomb.explode" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tiny_agent.test.test_supervisor.RestartOnly">
+<em class="property">class </em><code class="descclassname">tiny_agent.test.test_supervisor.</code><code class="descname">RestartOnly</code><span class="sig-paren">(</span><em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_supervisor.html#RestartOnly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_supervisor.RestartOnly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+<dl class="method">
+<dt id="tiny_agent.test.test_supervisor.RestartOnly.exit">
+<code class="descname">exit</code><span class="sig-paren">(</span><em>exc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_supervisor.html#RestartOnly.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_supervisor.RestartOnly.exit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tiny_agent.test.test_supervisor.TooManyRestartsOnly">
+<em class="property">class </em><code class="descclassname">tiny_agent.test.test_supervisor.</code><code class="descname">TooManyRestartsOnly</code><span class="sig-paren">(</span><em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_supervisor.html#TooManyRestartsOnly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_supervisor.TooManyRestartsOnly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.supervisor.SupervisorOneForAll" title="tiny_agent.supervisor.SupervisorOneForAll"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.supervisor.SupervisorOneForAll</span></code></a></p>
+<dl class="method">
+<dt id="tiny_agent.test.test_supervisor.TooManyRestartsOnly.exit">
+<code class="descname">exit</code><span class="sig-paren">(</span><em>exc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_supervisor.html#TooManyRestartsOnly.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_supervisor.TooManyRestartsOnly.exit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="tiny_agent.test.test_supervisor.test_one_for_all">
+<code class="descclassname">tiny_agent.test.test_supervisor.</code><code class="descname">test_one_for_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_supervisor.html#test_one_for_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_supervisor.test_one_for_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tiny_agent.test.test_supervisor.test_one_for_one">
+<code class="descclassname">tiny_agent.test.test_supervisor.</code><code class="descname">test_one_for_one</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_supervisor.html#test_one_for_one"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_supervisor.test_one_for_one" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tiny_agent.test.test_supervisor.test_too_many_resets">
+<code class="descclassname">tiny_agent.test.test_supervisor.</code><code class="descname">test_too_many_resets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/test/test_supervisor.html#test_too_many_resets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.test.test_supervisor.test_too_many_resets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-tiny_agent.test">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tiny_agent.test" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="tiny_agent.html" class="btn btn-neutral" title="tiny_agent package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Emily A. Bellows.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.7',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

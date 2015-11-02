@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>euphoria.state_machines.nick_and_auth &mdash; euphoria-py 0.3 documentation</title>
+  <title>euphoria.state_machines.nick_and_auth &mdash; euphoria-py 0.7 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="euphoria-py 0.3 documentation" href="../../../index.html"/>
+    <link rel="top" title="euphoria-py 0.7 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.3
+                0.7
               </div>
             
           
@@ -85,6 +85,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../euphoria.services.html">euphoria.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../euphoria.state_machines.html">euphoria.state_machines package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tiny_agent.html">tiny_agent package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tiny_agent.test.html">tiny_agent.test package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">euphoria</a></li>
 </ul>
 
@@ -149,134 +151,84 @@
 
 <span class="sd">&quot;&quot;&quot;Nickname and authentication state machines.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">Future</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">euphoria</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">AbstractEventLoop</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">euphoria</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Packet</span>
+<span class="kn">from</span> <span class="nn">tiny_agent</span> <span class="kn">import</span> <span class="n">Agent</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="NickAndAuth"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth">[docs]</a><span class="k">class</span> <span class="nc">NickAndAuth</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Client</span><span class="p">,</span> <span class="n">desired_nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">passcode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">):</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;NickAndAuth&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="NickAndAuth"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.NickAndAuth">[docs]</a><span class="k">class</span> <span class="nc">NickAndAuth</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Client</span><span class="p">,</span> <span class="n">desired_nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">passcode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NickAndAuth</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">stream</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span> <span class="o">=</span> <span class="n">desired_nick</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span> <span class="o">=</span> <span class="n">passcode</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">loop</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nick_future</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_passcode_future</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_partial_reset</span><span class="p">()</span>
-        <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_main_task</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_partial_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span> <span class="o">=</span> <span class="n">passcode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_future</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_future</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_future</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passcode_future</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_passcode_future</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_passcode_future</span> <span class="o">=</span> <span class="bp">None</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">current_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns your current nickname, which may not be the one you desire.</span>
-
-<span class="sd">        :rtype: str&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns your desired nickname, which may not be your current one yet.</span>
-
-<span class="sd">        :rtype: str&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">passcode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the passcode you will try on a BounceEvent.</span>
+    <span class="k">def</span> <span class="nf">current_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span>
 
-<span class="sd">        :rtype: str&quot;&quot;&quot;</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">passcode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">authorized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns whether or not you&#39;re authorized.</span>
-
-<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span>
 
-<div class="viewcode-block" id="NickAndAuth.set_desired_nick"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.set_desired_nick">[docs]</a>    <span class="k">def</span> <span class="nf">set_desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Attempt to set your current_nick to new_nick.</span>
-
-<span class="sd">        :param str new_nick: The new nickname you want to try.</span>
-<span class="sd">        :returns: A future that will contain a string error message on failure, or None.</span>
-<span class="sd">        :rtype: asyncio.Future&quot;&quot;&quot;</span>
+    <span class="nd">@Agent.call</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">set_desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span> <span class="o">=</span> <span class="n">new_nick</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nick_setter</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">send_nick</span><span class="p">(</span><span class="n">new_nick</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">packet</span><span class="o">.</span><span class="n">error</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_nick_future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">Future</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_future</span>
-</div>
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">_nick_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: trying to set nick to </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span><span class="p">)</span>
-        <span class="n">reply</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">send_nick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">reply</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span> <span class="o">=</span> <span class="n">reply</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span> <span class="o">=</span> <span class="n">reply</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: succeeded in setting nick to </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span><span class="p">)</span>
+            <span class="n">nick_reply</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">nick_reply</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span> <span class="o">=</span> <span class="n">nick_reply</span><span class="o">.</span><span class="n">to</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span> <span class="o">=</span> <span class="n">nick_reply</span><span class="o">.</span><span class="n">to</span>
             <span class="k">return</span> <span class="bp">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">reply</span><span class="o">.</span><span class="n">error</span>
 
-<div class="viewcode-block" id="NickAndAuth.set_passcode"><a class="viewcode-back" href="../../../euphoria.state_machines.html#euphoria.state_machines.nick_and_auth.NickAndAuth.set_passcode">[docs]</a>    <span class="k">def</span> <span class="nf">set_passcode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_passcode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Sets your passcode to new_passcode and attempts to authenticate if not already.</span>
-
-<span class="sd">        :param str new_passcode: The new passcode you want to try.</span>
-<span class="sd">        :returns: A future that will contain a string error message on failure, or None.</span>
-<span class="sd">        :rtype: asyncio.Future&quot;&quot;&quot;</span>
+    <span class="nd">@Agent.call</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">set_passcode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_passcode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span> <span class="o">=</span> <span class="n">new_passcode</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_passcode_future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_passcode_setter</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">send_auth</span><span class="p">(</span><span class="n">new_passcode</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">packet</span><span class="o">.</span><span class="n">error</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_passcode_future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">Future</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passcode_future</span>
-</div>
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">_passcode_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: trying to set passcode to </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span><span class="p">)</span>
-        <span class="n">reply</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">send_auth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">reply</span><span class="o">.</span><span class="n">error</span> <span class="ow">and</span> <span class="n">reply</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+            <span class="n">auth_reply</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">auth_reply</span>
+            <span class="k">assert</span> <span class="n">auth_reply</span><span class="o">.</span><span class="n">success</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: successfully authenticated with passcode&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">reply</span><span class="o">.</span><span class="n">error</span>
 
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">_main_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-            <span class="n">packet</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+    <span class="nd">@Agent.send</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">on_packet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="p">:</span> <span class="n">Packet</span><span class="p">):</span>
+        <span class="n">hello_event</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">hello_event</span>
+        <span class="k">if</span> <span class="n">hello_event</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span> <span class="o">=</span> <span class="n">hello_event</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">hello_event</span><span class="o">.</span><span class="n">room_is_private</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_desired_nick</span><span class="p">)</span>
+            <span class="k">return</span>
 
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">hello_event</span>
-            <span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: got HelloEvent&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_partial_reset</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">name</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">msg</span><span class="o">.</span><span class="n">room_is_private</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">set_desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">desired_nick</span><span class="p">)</span>
-                <span class="k">continue</span>
-
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">bounce_event</span>
-            <span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: got BounceEvent&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_partial_reset</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_current_nick</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span> <span class="o">=</span> <span class="bp">False</span>
-                <span class="k">if</span> <span class="s">&quot;passcode&quot;</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">auth_options</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">set_passcode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">passcode</span><span class="p">)</span></div>
+        <span class="n">bounce_event</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">bounce_event</span>
+        <span class="k">if</span> <span class="n">bounce_event</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_authorized</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_passcode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -310,7 +262,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.3',
+            VERSION:'0.7',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

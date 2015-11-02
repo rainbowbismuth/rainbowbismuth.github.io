@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>euphoria.services package &mdash; euphoria-py 0.3 documentation</title>
+  <title>euphoria.services package &mdash; euphoria-py 0.7 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="euphoria-py 0.3 documentation" href="index.html"/>
+    <link rel="top" title="euphoria-py 0.7 documentation" href="index.html"/>
         <link rel="next" title="euphoria.state_machines package" href="euphoria.state_machines.html"/>
         <link rel="prev" title="euphoria.test package" href="euphoria.test.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.3
+                0.7
               </div>
             
           
@@ -94,6 +94,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="euphoria.state_machines.html">euphoria.state_machines package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tiny_agent.html">tiny_agent package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tiny_agent.test.html">tiny_agent.test package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">euphoria</a></li>
 </ul>
 
@@ -147,86 +149,102 @@
 <div class="section" id="module-euphoria.services.alloc">
 <span id="euphoria-services-alloc-module"></span><h2>euphoria.services.alloc module<a class="headerlink" href="#module-euphoria.services.alloc" title="Permalink to this headline">¶</a></h2>
 <p>Say &#8216;!alloc&#8217; to see some neat memory statistics</p>
-<dl class="function">
-<dt id="euphoria.services.alloc.display_top">
-<code class="descclassname">euphoria.services.alloc.</code><code class="descname">display_top</code><span class="sig-paren">(</span><em>snapshot</em>, <em>group_by='lineno'</em>, <em>limit=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#display_top"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.display_top" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="euphoria.services.alloc.main">
-<code class="descclassname">euphoria.services.alloc.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>Entry point into the &#8216;!alloc&#8217; service.</p>
-<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
+<dl class="class">
+<dt id="euphoria.services.alloc.Service">
+<em class="property">class </em><code class="descclassname">euphoria.services.alloc.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.Service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+<dl class="method">
+<dt id="euphoria.services.alloc.Service.on_packet">
+<code class="descname">on_packet</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.services.alloc.Service.on_packet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bot</strong> (<a class="reference internal" href="euphoria.html#euphoria.Bot" title="euphoria.Bot"><em>euphoria.Bot</em></a>) &#8211; This service&#8217;s bot</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="euphoria.services.alloc.display_top">
+<code class="descclassname">euphoria.services.alloc.</code><code class="descname">display_top</code><span class="sig-paren">(</span><em>snapshot</em>, <em>group_by='lineno'</em>, <em>limit=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#display_top"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.display_top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-euphoria.services.nick_change">
 <span id="euphoria-services-nick-change-module"></span><h2>euphoria.services.nick_change module<a class="headerlink" href="#module-euphoria.services.nick_change" title="Permalink to this headline">¶</a></h2>
 <p>Say &#8216;!nick&#8217; new_nick to change the bots name to new_nick</p>
-<dl class="function">
-<dt id="euphoria.services.nick_change.main">
-<code class="descclassname">euphoria.services.nick_change.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/nick_change.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.nick_change.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>Entry point into the !nick&#8217; service.</p>
-<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
+<dl class="class">
+<dt id="euphoria.services.nick_change.Service">
+<em class="property">class </em><code class="descclassname">euphoria.services.nick_change.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/nick_change.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.nick_change.Service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+<dl class="method">
+<dt id="euphoria.services.nick_change.Service.on_packet">
+<code class="descname">on_packet</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.services.nick_change.Service.on_packet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bot</strong> (<a class="reference internal" href="euphoria.html#euphoria.Bot" title="euphoria.Bot"><em>euphoria.Bot</em></a>) &#8211; This service&#8217;s bot</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
 <div class="section" id="module-euphoria.services.reminder">
 <span id="euphoria-services-reminder-module"></span><h2>euphoria.services.reminder module<a class="headerlink" href="#module-euphoria.services.reminder" title="Permalink to this headline">¶</a></h2>
 <p>Say &#8216;!remind 15m eat food&#8217; to be reminded in 15 minutes to eat food</p>
-<dl class="function">
-<dt id="euphoria.services.reminder.chill_and_respond">
-<code class="descclassname">euphoria.services.reminder.</code><code class="descname">chill_and_respond</code><span class="sig-paren">(</span><em>client</em>, <em>length</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reminder.html#chill_and_respond"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reminder.chill_and_respond" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="euphoria.services.reminder.main">
-<code class="descclassname">euphoria.services.reminder.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reminder.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reminder.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>Entry point into the &#8216;!remind&#8217; service.</p>
-<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
+<dl class="class">
+<dt id="euphoria.services.reminder.Service">
+<em class="property">class </em><code class="descclassname">euphoria.services.reminder.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reminder.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reminder.Service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+<dl class="method">
+<dt id="euphoria.services.reminder.Service.on_packet">
+<code class="descname">on_packet</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.services.reminder.Service.on_packet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bot</strong> (<a class="reference internal" href="euphoria.html#euphoria.Bot" title="euphoria.Bot"><em>euphoria.Bot</em></a>) &#8211; This service&#8217;s bot</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="euphoria.services.reminder.chill_and_respond">
+<code class="descclassname">euphoria.services.reminder.</code><code class="descname">chill_and_respond</code><span class="sig-paren">(</span><em>bot</em>, <em>length</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reminder.html#chill_and_respond"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reminder.chill_and_respond" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-euphoria.services.botrulez">
 <span id="euphoria-services-botrulez-module"></span><h2>euphoria.services.botrulez module<a class="headerlink" href="#module-euphoria.services.botrulez" title="Permalink to this headline">¶</a></h2>
 <p>Implements the !ping, !uptime, !kill, and !restart from <a class="reference external" href="https://github.com/jedevc/botrulez">https://github.com/jedevc/botrulez</a></p>
-<dl class="function">
-<dt id="euphoria.services.botrulez.main">
-<code class="descclassname">euphoria.services.botrulez.</code><code class="descname">main</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/botrulez.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.botrulez.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>Entry point into the botrulez service.</p>
-<p>This method is a <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#coroutines">coroutine</a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
+<dl class="class">
+<dt id="euphoria.services.botrulez.Service">
+<em class="property">class </em><code class="descclassname">euphoria.services.botrulez.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/botrulez.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.botrulez.Service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+<dl class="method">
+<dt id="euphoria.services.botrulez.Service.on_packet">
+<code class="descname">on_packet</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.services.botrulez.Service.on_packet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bot</strong> (<a class="reference internal" href="euphoria.html#euphoria.Bot" title="euphoria.Bot"><em>euphoria.Bot</em></a>) &#8211; This service&#8217;s bot</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -277,7 +295,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.3',
+            VERSION:'0.7',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

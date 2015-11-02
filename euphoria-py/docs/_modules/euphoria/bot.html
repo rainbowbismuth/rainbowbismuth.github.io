@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>euphoria.bot &mdash; euphoria-py 0.3 documentation</title>
+  <title>euphoria.bot &mdash; euphoria-py 0.7 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="euphoria-py 0.3 documentation" href="../../index.html"/>
+    <link rel="top" title="euphoria-py 0.7 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.3
+                0.7
               </div>
             
           
@@ -85,6 +85,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.services.html">euphoria.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.state_machines.html">euphoria.state_machines package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tiny_agent.html">tiny_agent package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tiny_agent.test.html">tiny_agent.test package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">euphoria</a></li>
 </ul>
 
@@ -154,20 +156,21 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">logging.config</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">AbstractEventLoop</span><span class="p">,</span> <span class="n">Future</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">yaml</span>
 
-<span class="kn">from</span> <span class="nn">.client</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">EUPHORIA_URL</span>
-<span class="kn">from</span> <span class="nn">.state_machines</span> <span class="kn">import</span> <span class="n">NickAndAuth</span>
+<span class="kn">from</span> <span class="nn">euphoria</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">NickAndAuth</span>
+<span class="kn">from</span> <span class="nn">.client</span> <span class="kn">import</span> <span class="n">EUPHORIA_URL</span>
+<span class="kn">from</span> <span class="nn">tiny_agent</span> <span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">SupervisorOneForOne</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;BotConfig&#39;</span><span class="p">,</span> <span class="s">&#39;Bot&#39;</span><span class="p">]</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
 
-<span class="c"># TODO: Add closed property? and wait until closed? + started etc?</span>
 <span class="c"># TODO: Add Ctrl-C handler, see https://github.com/rainbowbismuth/euphoria-py/issues/4</span>
-<span class="c"># TODO: What am I doing with _exit_exc?</span>
 
 
 <div class="viewcode-block" id="BotConfig"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.BotConfig">[docs]</a><span class="k">class</span> <span class="nc">BotConfig</span><span class="p">:</span>
@@ -190,7 +193,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_nick</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_passcode</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;passcode&#39;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_uri_format</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;uri_format&#39;</span><span class="p">,</span> <span class="n">EUPHORIA_URL</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_handle_pings</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;handle_pings&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_services</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;services&#39;</span><span class="p">,</span> <span class="p">{})</span>
 
     <span class="nd">@property</span>
@@ -234,16 +236,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uri_format</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">handle_pings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns whether or not the bot should handle pings for you.</span>
-
-<span class="sd">        Defaults to True.</span>
-
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_pings</span>
-
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">services</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;A mapping from service names, to a python module path.</span>
 
@@ -254,30 +246,31 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span>
 
 </div>
-<div class="viewcode-block" id="Bot"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot">[docs]</a><span class="k">class</span> <span class="nc">Bot</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A high-level bot for euphoria.</span>
+<span class="k">def</span> <span class="nf">make_service_constructor</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">bot</span><span class="p">):</span>
+    <span class="c"># Got caught by python&#39;s closure late binding...</span>
+    <span class="k">def</span> <span class="nf">construct</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">mod</span><span class="o">.</span><span class="n">Service</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">construct</span>
 
-<span class="sd">    :param euphoria.BotConfig config: Bot configuration</span>
-<span class="sd">    :param asyncio.AbstractEventLoop loop: The asyncio event loop you want to use</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">BotConfig</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Bot"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot">[docs]</a><span class="k">class</span> <span class="nc">Bot</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">BotConfig</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bot</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">uri_format</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">handle_pings</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">uri_format</span><span class="p">,</span> <span class="n">handle_pings</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span> <span class="o">=</span> <span class="n">NickAndAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">nick</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">passcode</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_creators</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_services</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_exit_exc</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_start_time</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_request_restart</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service_supervisor</span> <span class="o">=</span> <span class="n">SupervisorOneForOne</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">services</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_service_creator</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">main</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">short_name</span><span class="p">,</span> <span class="n">module_path</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">services</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_service_supervisor</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">short_name</span><span class="p">,</span> <span class="n">make_service_constructor</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;&lt;euphoria.Bot room=&#39;{0}&#39; nick=&#39;{1}&#39;&gt;&quot;</span>
-        <span class="k">return</span> <span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">desired_nick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bidirectional_link</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bidirectional_link</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bidirectional_link</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service_supervisor</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BotConfig</span><span class="p">:</span>
@@ -287,145 +280,58 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Client</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the associated Client this bot is using.</span>
-
-<span class="sd">        :rtype: euphoria.Client&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">nick_and_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NickAndAuth</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the associated NickAndAuth this bot is using.</span>
-
-<span class="sd">        :rtype: euphoria.state_machines.NickAndAuth&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span>
-
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">start_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the time that the Bot was started.</span>
 
 <span class="sd">        :rtype: datetime.date&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_time</span>
 
-<div class="viewcode-block" id="Bot.restart"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Signals that the Bot should be restarted, and closes it.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_request_restart</span> <span class="o">=</span> <span class="bp">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Bot.add_service_creator"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.add_service_creator">[docs]</a>    <span class="k">def</span> <span class="nf">add_service_creator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add a coroutine creating function that takes a bot under name.</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">current_nick</span>
 
-<span class="sd">        :param str name: The short form name of the service creator</span>
-<span class="sd">        :param f: An async function that is called f(bot)&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service_creators</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_creators</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span>
-</div>
-<div class="viewcode-block" id="Bot.start_service"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.start_service">[docs]</a>    <span class="k">def</span> <span class="nf">start_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Starts the service called name.</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">desired_nick</span>
 
-<span class="sd">        :param str name: The short form name of the service to start&quot;&quot;&quot;</span>
-        <span class="n">creator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service_creators</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">passcode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">passcode</span>
 
-        <span class="n">async</span> <span class="k">def</span> <span class="nf">try_service</span><span class="p">():</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">await</span> <span class="n">creator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">CancelledError</span><span class="p">:</span>
-                <span class="k">return</span>
-            <span class="k">except</span> <span class="ne">SystemExit</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_exit_exc</span> <span class="o">=</span> <span class="n">exc</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-                <span class="k">return</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> service </span><span class="si">%s</span><span class="s"> crashed&quot;</span><span class="p">,</span>
-                             <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-                <span class="c"># Retry the service. This should eventually stack overflow</span>
-                <span class="c"># and thats probably good enough for now...</span>
-                <span class="c"># TODO: FIX</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
-                    <span class="n">await</span> <span class="n">try_service</span><span class="p">()</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">connected</span>
 
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
-        <span class="n">task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">try_service</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">loop</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> started service </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span>
-</div>
-<div class="viewcode-block" id="Bot.stop_service"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.stop_service">[docs]</a>    <span class="k">def</span> <span class="nf">stop_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Stops the service called name.</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">authorized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">authorized</span>
 
-<span class="sd">        :param str name: The name of the service to stop&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> stopped service </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Bot.contains_service"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.contains_service">[docs]</a>    <span class="k">def</span> <span class="nf">contains_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns whether or not this bot has a particular running service.</span>
+    <span class="nd">@Agent.call</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">set_desired_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_nick</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">set_desired_nick</span><span class="p">(</span><span class="n">new_nick</span><span class="p">)</span>
 
-<span class="sd">        :param str name: The name of the service to check&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span>
-</div>
-<div class="viewcode-block" id="Bot.get_service"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.get_service">[docs]</a>    <span class="k">def</span> <span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Retrieves a service&#39;s task.</span>
+    <span class="nd">@Agent.call</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">set_passcode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_passcode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nick_and_auth</span><span class="o">.</span><span class="n">set_passcode</span><span class="p">(</span><span class="n">new_passcode</span><span class="p">)</span>
 
-<span class="sd">        :param str name: The name of the service to get</span>
-<span class="sd">        :rtype: asyncio.Task&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+<div class="viewcode-block" id="Bot.send_content"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.send_content">[docs]</a>    <span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Bot.start_all"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.start_all">[docs]</a>    <span class="k">def</span> <span class="nf">start_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Start all services.</span>
-
-<span class="sd">        Currently restarts those already started.&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service_creators</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">start_service</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Bot.stop_all"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.stop_all">[docs]</a>    <span class="k">def</span> <span class="nf">stop_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Stop all services.&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service_creators</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stop_service</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Bot.close"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Close the bot.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> closing&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stop_all</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Bot.start"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.start">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Start the bot.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start_all</span><span class="p">()</span>
-        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
+<div class="viewcode-block" id="Bot.add_listener"><a class="viewcode-back" href="../../euphoria.html#euphoria.bot.Bot.add_listener">[docs]</a>    <span class="k">def</span> <span class="nf">add_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">Agent</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="n">listener</span><span class="p">)</span>
 </div></div>
-<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">&#39;bot.yml&#39;</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Run a Bot with restarts.</span>
-
-<span class="sd">    This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">BotConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">config_file</span><span class="p">)</span>
-    <span class="n">sys_exit</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">sys_exit</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
-            <span class="n">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">bot</span><span class="o">.</span><span class="n">_request_restart</span><span class="p">:</span>
-                <span class="k">break</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: bot crashed&quot;</span><span class="p">,</span> <span class="n">bot</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">bot</span><span class="o">.</span><span class="n">_exit_exc</span><span class="p">:</span>
-                <span class="n">sys_exit</span> <span class="o">=</span> <span class="bp">True</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dictConfig</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;logging.yml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()))</span>
     <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
-    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">))</span>
-    <span class="n">tasks</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">all_tasks</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
-        <span class="n">task</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
-    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">tasks</span><span class="p">))</span>
-    <span class="n">loop</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-    <span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">BotConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;bot.yml&#39;</span><span class="p">)</span>
+    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">bot</span><span class="o">.</span><span class="n">task</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;main() bot shutdown!&quot;</span><span class="p">)</span>
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">all_tasks</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)))</span>  <span class="c"># Let everything else shutdown cleanly</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
            </div>
@@ -459,7 +365,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.3',
+            VERSION:'0.7',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

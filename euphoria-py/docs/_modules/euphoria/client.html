@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>euphoria.client &mdash; euphoria-py 0.3 documentation</title>
+  <title>euphoria.client &mdash; euphoria-py 0.7 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="euphoria-py 0.3 documentation" href="../../index.html"/>
+    <link rel="top" title="euphoria-py 0.7 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.3
+                0.7
               </div>
             
           
@@ -85,6 +85,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.services.html">euphoria.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.state_machines.html">euphoria.state_machines package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tiny_agent.html">tiny_agent package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tiny_agent.test.html">tiny_agent.test package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">euphoria</a></li>
 </ul>
 
@@ -152,13 +154,13 @@
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">weakref</span>
-<span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">Future</span><span class="p">,</span> <span class="n">AbstractEventLoop</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">Future</span><span class="p">,</span> <span class="n">AbstractEventLoop</span><span class="p">,</span> <span class="n">CancelledError</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">websockets</span>
 
-<span class="kn">from</span> <span class="nn">euphoria</span> <span class="kn">import</span> <span class="n">Stream</span><span class="p">,</span> <span class="n">Packet</span><span class="p">,</span> <span class="n">PingEvent</span>
+<span class="kn">from</span> <span class="nn">euphoria</span> <span class="kn">import</span> <span class="n">Packet</span><span class="p">,</span> <span class="n">PingEvent</span>
+<span class="kn">from</span> <span class="nn">tiny_agent</span> <span class="kn">import</span> <span class="n">Agent</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Client&#39;</span><span class="p">]</span>
 
@@ -167,31 +169,18 @@
 <span class="n">EUPHORIA_URL</span> <span class="o">=</span> <span class="s">&quot;wss://euphoria.io:443/room/{0}/ws&quot;</span>
 
 
-<div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A websocket client for Euphoria.</span>
-
-<span class="sd">    :param str room: The room the client should join when started</span>
-<span class="sd">    :param asyncio.AbstractEventLoop loop: The asyncio event loop you want to use</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">uri_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">EUPHORIA_URL</span><span class="p">,</span>
                  <span class="n">handle_pings</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">AbstractEventLoop</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_handle_pings</span> <span class="o">=</span> <span class="n">handle_pings</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_incoming</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Client</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_next_msg_id</span> <span class="o">=</span> <span class="mh">0xBEEF</span>  <span class="c"># just for fun</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reply_map</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_room</span> <span class="o">=</span> <span class="n">room</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_uri</span> <span class="o">=</span> <span class="n">uri_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span> <span class="o">=</span> <span class="n">loop</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_handle_pings</span> <span class="o">=</span> <span class="n">handle_pings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sender</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakSet</span><span class="p">()</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_started</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_listeners</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;&lt;euphoria.Client room=&#39;{0}&#39; uri=&#39;{1}&#39;&gt;&quot;</span>
@@ -199,181 +188,75 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">room</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The room this client may be connected to.</span>
-
-<span class="sd">        :rtype: str&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_room</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">uri</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The URI this client will connect to.</span>
-
-<span class="sd">        :rtype: str&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uri</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractEventLoop</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The asyncio event loop this client uses.</span>
-
-<span class="sd">        :rtype: asyncio.AbstractEventLoop&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">started</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns whether this client has been started.</span>
-
-<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">handle_pings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_pings</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns whether this client is connected to the server.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">open</span>
 
-<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns whether this client is closed.</span>
-
-<span class="sd">        :rtype: bool&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
-
-<div class="viewcode-block" id="Client.wait_until_started"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.wait_until_started">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_until_started</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Wait until the client has been started.</span>
-
-<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
-        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Client.wait_until_connected"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.wait_until_connected">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_until_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Pause execution of calling coroutine until client is connected.</span>
-
-<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span>
-        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Client.wait_until_closed"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.wait_until_closed">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">wait_until_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Paused execution of the calling coroutine until client has closed.</span>
-
-<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
-        <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Client.close"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Close the Client, never to be started again.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
-            <span class="k">return</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> closing&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
-
-        <span class="n">async</span> <span class="k">def</span> <span class="nf">close_task</span><span class="p">():</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">open</span><span class="p">:</span>
-                <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sender</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_sender</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_sender</span> <span class="o">=</span> <span class="bp">None</span>
-
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span> <span class="o">=</span> <span class="bp">None</span>
-
-            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reply_map</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                <span class="n">v</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_reply_map</span> <span class="o">=</span> <span class="p">{}</span>
-
-            <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">:</span>
-                <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> closed&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-
-        <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">close_task</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Client.stream"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.stream">[docs]</a>    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stream</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns a Stream of messages to the Client.</span>
-
-<span class="sd">        :rtype: euphoria.Stream&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span>
-        <span class="n">stream</span> <span class="o">=</span> <span class="n">Stream</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
-            <span class="n">stream</span><span class="o">.</span><span class="n">_connect</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">stream</span>
-</div>
-<div class="viewcode-block" id="Client.start"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.start">[docs]</a>    <span class="n">async</span> <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Start the Client. This won&#39;t return until the Client is closed.</span>
-
-<span class="sd">        This method is a `coroutine &lt;https://docs.python.org/3/library/asyncio-task.html#coroutines&gt;`_.&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">started</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> connecting to </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uri</span><span class="p">)</span>
+    <span class="nd">@Agent.send</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">alive</span><span class="p">,</span> <span class="s">&quot;we better be alive to be connected&quot;</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">,</span> <span class="s">&quot;make sure we don&#39;t get connected twice ever&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span> <span class="o">=</span> <span class="n">await</span> <span class="n">websockets</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_uri</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sender</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_send_loop</span><span class="p">(),</span>
-                                             <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_recv_loop</span><span class="p">(),</span>
-                                               <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+        <span class="n">async</span> <span class="k">def</span> <span class="nf">receive_loop</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">alive</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">return</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> got message </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+                    <span class="n">packet</span> <span class="o">=</span> <span class="n">Packet</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
 
-        <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">:</span>
-            <span class="n">stream</span><span class="o">.</span><span class="n">_connect</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">PingEvent</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_pings</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">send_ping_reply</span><span class="p">(</span><span class="n">packet</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> connected&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="c"># If the message has an ID that means its a response to a</span>
+                        <span class="c"># message we sent, so we put it into the corresponding future.</span>
+                        <span class="n">fut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_take_reply_future</span><span class="p">(</span><span class="n">packet</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">fut</span><span class="p">:</span>
+                            <span class="n">fut</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
 
+                    <span class="n">to_remove</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">listener</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_listeners</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">listener</span><span class="o">.</span><span class="n">alive</span><span class="p">:</span>
+                            <span class="n">listener</span><span class="o">.</span><span class="n">on_packet</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">to_remove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_remove</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">listener</span> <span class="ow">in</span> <span class="n">to_remove</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_listeners</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">listener</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">CancelledError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">receive_loop</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Client.exit"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="c"># noinspection PyBroadException</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_sender</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span><span class="p">],</span>
-                               <span class="n">return_when</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">FIRST_COMPLETED</span><span class="p">,</span>
-                               <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alive</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: exception occurred in overridden exit()&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">Client</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
 </div>
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">_send_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="c"># This loop is started as a Task in Client.start(), it retrieves data from</span>
-        <span class="c"># the internal send queue and sends it out on the WebSocket.</span>
-        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> sending message </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-            <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">_recv_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="c"># This loop is started as a Task in Client.start(), it gets packets from</span>
-        <span class="c"># the WebSocket and routes them to the appropriate place.</span>
-        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">return</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> got message </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-            <span class="n">packet</span> <span class="o">=</span> <span class="n">Packet</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
-
-            <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">PingEvent</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_pings</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send_ping_reply</span><span class="p">(</span><span class="n">packet</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> ping: </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-                <span class="k">continue</span>
-
-            <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="c"># If the message has an ID that means its a response to a</span>
-                <span class="c"># message we sent, so we put it into the corresponding future.</span>
-                <span class="n">fut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_take_reply_future</span><span class="p">(</span><span class="n">packet</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">fut</span><span class="p">:</span>
-                    <span class="n">fut</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
-                <span class="k">continue</span>
-
-            <span class="n">to_delete</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">:</span>
-                <span class="c"># Every stream should get a copy of this Packet.</span>
-                <span class="k">if</span> <span class="n">stream</span><span class="o">.</span><span class="n">open</span><span class="p">:</span>
-                    <span class="n">stream</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="c"># Someone closed this stream so we can delete it at the end</span>
-                    <span class="c"># of the loop.</span>
-                    <span class="n">to_delete</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="n">to_delete</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-
+<div class="viewcode-block" id="Client.add_listener"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.add_listener">[docs]</a>    <span class="k">def</span> <span class="nf">add_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">Agent</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_listeners</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">listener</span><span class="p">)</span>
+</div>
     <span class="k">def</span> <span class="nf">_next_id_and_future</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Future</span><span class="p">]:</span>
         <span class="c"># Generate a new ID to put into a message we are about to send, and</span>
         <span class="c"># a corresponding future to receive the eventual reply from the server.</span>
@@ -390,19 +273,25 @@
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reply_map</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">future</span>
 
+    <span class="nd">@Agent.send</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">_send_packet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> sending message </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="p">)</span>
+            <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_send_msg_with_reply_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
         <span class="c"># A small helper to send messages that will be replied to by the</span>
         <span class="c"># server.</span>
         <span class="n">id_</span><span class="p">,</span> <span class="n">future</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_id_and_future</span><span class="p">()</span>
         <span class="n">j</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="n">type_</span><span class="p">,</span> <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="n">id_</span><span class="p">,</span> <span class="s">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_packet</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">future</span>
 
     <span class="k">def</span> <span class="nf">_send_msg_no_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
         <span class="c"># A small helper to send a message that won&#39;t receive a reply from the</span>
         <span class="c"># server.</span>
         <span class="n">j</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="n">type_</span><span class="p">,</span> <span class="s">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_packet</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Client.send_nick"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.send_nick">[docs]</a>    <span class="k">def</span> <span class="nf">send_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Sends a nick command to the server.</span>
@@ -410,14 +299,12 @@
 <span class="sd">        :param str name: The new nick you want this Client to have</span>
 <span class="sd">        :returns: A future that will contain a :py:class:`euphoria.NickReply`</span>
 <span class="sd">        :rtype: asyncio.Future&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_msg_with_reply_type</span><span class="p">(</span><span class="s">&quot;nick&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
 </div>
 <div class="viewcode-block" id="Client.send_ping_reply"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.send_ping_reply">[docs]</a>    <span class="k">def</span> <span class="nf">send_ping_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Sends a ping reply to the server.</span>
 
 <span class="sd">        :param int time: The time you got passed in a PingEvent&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_msg_no_reply</span><span class="p">(</span><span class="s">&quot;ping-reply&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;time&quot;</span><span class="p">:</span> <span class="n">time</span><span class="p">})</span>
 </div>
 <div class="viewcode-block" id="Client.send_auth"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.send_auth">[docs]</a>    <span class="k">def</span> <span class="nf">send_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">passcode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
@@ -426,19 +313,17 @@
 <span class="sd">        :param str passcode: The password to the room the Client is connected to</span>
 <span class="sd">        :returns: a future that will contain an :py:class:`euphoria.AuthReply`</span>
 <span class="sd">        :rtype: asyncio.Future&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_msg_with_reply_type</span><span class="p">(</span><span class="s">&quot;auth&quot;</span><span class="p">,</span>
                                               <span class="p">{</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;passcode&quot;</span><span class="p">,</span>
                                                <span class="s">&quot;passcode&quot;</span><span class="p">:</span> <span class="n">passcode</span><span class="p">})</span>
 </div>
-<div class="viewcode-block" id="Client.send"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
+<div class="viewcode-block" id="Client.send_content"><a class="viewcode-back" href="../../euphoria.html#euphoria.client.Client.send_content">[docs]</a>    <span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Sends a send command to the server.</span>
 
 <span class="sd">        :param str content: The message you want this Client to say to the room</span>
 <span class="sd">        :param str parent: The message ID you want to parent to</span>
 <span class="sd">        :returns: A future that will contain a :py:class:`euphoria.SendReply`</span>
 <span class="sd">        :rtype: asyncio.Future&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span>
         <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;content&quot;</span><span class="p">:</span> <span class="n">content</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">parent</span><span class="p">:</span>
             <span class="n">d</span><span class="p">[</span><span class="s">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent</span>
@@ -476,7 +361,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.3',
+            VERSION:'0.7',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

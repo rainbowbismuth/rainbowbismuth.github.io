@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>euphoria.state_machines package &mdash; euphoria-py 0.3 documentation</title>
+  <title>euphoria.state_machines package &mdash; euphoria-py 0.7 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="euphoria-py 0.3 documentation" href="index.html"/>
+    <link rel="top" title="euphoria-py 0.7 documentation" href="index.html"/>
         <link rel="up" title="euphoria package" href="euphoria.html"/>
         <link rel="next" title="euphoria.test package" href="euphoria.test.html"/>
         <link rel="prev" title="euphoria package" href="euphoria.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.7
               </div>
             
           
@@ -99,7 +99,6 @@
 <li class="toctree-l2"><a class="reference internal" href="euphoria.html#module-euphoria.client">euphoria.client module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="euphoria.html#module-euphoria.data">euphoria.data module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="euphoria.html#module-euphoria.exceptions">euphoria.exceptions module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="euphoria.html#module-euphoria.stream">euphoria.stream module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="euphoria.html#module-euphoria">Module contents</a></li>
 </ul>
 </li>
@@ -111,6 +110,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tiny_agent.html">tiny_agent package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tiny_agent.test.html">tiny_agent.test package</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">euphoria</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="euphoria.html">euphoria package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="euphoria.html#subpackages">Subpackages</a><ul class="current">
@@ -123,10 +124,10 @@
 <li class="toctree-l3"><a class="reference internal" href="euphoria.html#module-euphoria.client">euphoria.client module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="euphoria.html#module-euphoria.data">euphoria.data module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="euphoria.html#module-euphoria.exceptions">euphoria.exceptions module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="euphoria.html#module-euphoria.stream">euphoria.stream module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="euphoria.html#module-euphoria">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="tiny_agent.html">tiny_agent package</a></li>
 </ul>
 </li>
 </ul>
@@ -187,45 +188,31 @@
 <p>Nickname and authentication state machines.</p>
 <dl class="class">
 <dt id="euphoria.state_machines.nick_and_auth.NickAndAuth">
-<em class="property">class </em><code class="descclassname">euphoria.state_machines.nick_and_auth.</code><code class="descname">NickAndAuth</code><span class="sig-paren">(</span><em>client</em>, <em>desired_nick</em>, <em>passcode=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<em class="property">class </em><code class="descclassname">euphoria.state_machines.nick_and_auth.</code><code class="descname">NickAndAuth</code><span class="sig-paren">(</span><em>client</em>, <em>desired_nick</em>, <em>passcode=''</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
 <dl class="attribute">
 <dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.authorized">
 <code class="descname">authorized</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.authorized" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns whether or not you&#8217;re authorized.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.5)">bool</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.current_nick">
 <code class="descname">current_nick</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.current_nick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns your current nickname, which may not be the one you desire.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.desired_nick">
 <code class="descname">desired_nick</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.desired_nick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns your desired nickname, which may not be your current one yet.</p>
-<table class="docutils field-list" frame="void" rules="none">
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.on_packet">
+<code class="descname">on_packet</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.on_packet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
 </tr>
 </tbody>
 </table>
@@ -234,30 +221,16 @@
 <dl class="attribute">
 <dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.passcode">
 <code class="descname">passcode</code><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.passcode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the passcode you will try on a BounceEvent.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)">str</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.set_desired_nick">
-<code class="descname">set_desired_nick</code><span class="sig-paren">(</span><em>new_nick</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.set_desired_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.set_desired_nick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attempt to set your current_nick to new_nick.</p>
-<table class="docutils field-list" frame="void" rules="none">
+<code class="descname">set_desired_nick</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.set_desired_nick" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>new_nick</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The new nickname you want to try.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A future that will contain a string error message on failure, or None.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Future" title="(in Python v3.5)">asyncio.Future</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Future</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -265,17 +238,12 @@
 
 <dl class="method">
 <dt id="euphoria.state_machines.nick_and_auth.NickAndAuth.set_passcode">
-<code class="descname">set_passcode</code><span class="sig-paren">(</span><em>new_passcode</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth.set_passcode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.set_passcode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets your passcode to new_passcode and attempts to authenticate if not already.</p>
-<table class="docutils field-list" frame="void" rules="none">
+<code class="descname">set_passcode</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.state_machines.nick_and_auth.NickAndAuth.set_passcode" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>new_passcode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) &#8211; The new passcode you want to try.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A future that will contain a string error message on failure, or None.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Future" title="(in Python v3.5)">asyncio.Future</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Future</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -286,6 +254,71 @@
 </div>
 <div class="section" id="module-euphoria.state_machines">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-euphoria.state_machines" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="euphoria.state_machines.NickAndAuth">
+<em class="property">class </em><code class="descclassname">euphoria.state_machines.</code><code class="descname">NickAndAuth</code><span class="sig-paren">(</span><em>client</em>, <em>desired_nick</em>, <em>passcode=''</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/state_machines/nick_and_auth.html#NickAndAuth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.state_machines.NickAndAuth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+<dl class="attribute">
+<dt id="euphoria.state_machines.NickAndAuth.authorized">
+<code class="descname">authorized</code><a class="headerlink" href="#euphoria.state_machines.NickAndAuth.authorized" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.NickAndAuth.current_nick">
+<code class="descname">current_nick</code><a class="headerlink" href="#euphoria.state_machines.NickAndAuth.current_nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.NickAndAuth.desired_nick">
+<code class="descname">desired_nick</code><a class="headerlink" href="#euphoria.state_machines.NickAndAuth.desired_nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.NickAndAuth.on_packet">
+<code class="descname">on_packet</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.state_machines.NickAndAuth.on_packet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.state_machines.NickAndAuth.passcode">
+<code class="descname">passcode</code><a class="headerlink" href="#euphoria.state_machines.NickAndAuth.passcode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.NickAndAuth.set_desired_nick">
+<code class="descname">set_desired_nick</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.state_machines.NickAndAuth.set_desired_nick" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Future</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.state_machines.NickAndAuth.set_passcode">
+<code class="descname">set_passcode</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.state_machines.NickAndAuth.set_passcode" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Future</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -330,7 +363,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.3',
+            VERSION:'0.7',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

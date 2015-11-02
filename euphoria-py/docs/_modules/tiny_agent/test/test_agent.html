@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>euphoria.services.nick_change &mdash; euphoria-py 0.7 documentation</title>
+  <title>tiny_agent.test.test_agent &mdash; euphoria-py 0.7 documentation</title>
   
 
   
@@ -120,7 +120,7 @@
       
           <li><a href="../../index.html">Module code</a> &raquo;</li>
       
-    <li>euphoria.services.nick_change</li>
+    <li>tiny_agent.test.test_agent</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -132,7 +132,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for euphoria.services.nick_change</h1><div class="highlight"><pre>
+  <h1>Source code for tiny_agent.test.test_agent</h1><div class="highlight"><pre>
 <span class="c"># euphoria-py</span>
 <span class="c"># Copyright (C) 2015  Emily A. Bellows</span>
 <span class="c">#</span>
@@ -149,25 +149,35 @@
 <span class="c"># You should have received a copy of the GNU General Public License</span>
 <span class="c"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">&quot;&quot;&quot;Say &#39;!nick&#39; new_nick to change the bots name to new_nick&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
 
-<span class="kn">from</span> <span class="nn">euphoria</span> <span class="kn">import</span> <span class="n">Bot</span><span class="p">,</span> <span class="n">Packet</span>
 <span class="kn">from</span> <span class="nn">tiny_agent</span> <span class="kn">import</span> <span class="n">Agent</span>
 
 
-<div class="viewcode-block" id="Service"><a class="viewcode-back" href="../../../euphoria.services.html#euphoria.services.nick_change.Service">[docs]</a><span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot</span><span class="p">:</span> <span class="n">Bot</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Service</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">bot</span><span class="o">.</span><span class="n">loop</span><span class="p">)</span>
-        <span class="n">bot</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span> <span class="o">=</span> <span class="n">bot</span>
+<div class="viewcode-block" id="Counter"><a class="viewcode-back" href="../../../tiny_agent.test.html#tiny_agent.test.test_agent.Counter">[docs]</a><span class="k">class</span> <span class="nc">Counter</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Counter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_counter</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="nd">@Agent.send</span>
-    <span class="n">async</span> <span class="k">def</span> <span class="nf">on_packet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="p">:</span> <span class="n">Packet</span><span class="p">):</span>
-        <span class="n">send_event</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">send_event</span>
-        <span class="k">if</span> <span class="n">send_event</span> <span class="ow">and</span> <span class="n">send_event</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;!nick&quot;</span><span class="p">):</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">set_desired_nick</span><span class="p">(</span><span class="n">send_event</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">6</span><span class="p">:])</span>
-            <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">send_event</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">increment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="nd">@Agent.call</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">current</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counter</span>
+
+</div>
+<div class="viewcode-block" id="test_counter"><a class="viewcode-back" href="../../../tiny_agent.test.html#tiny_agent.test.test_agent.test_counter">[docs]</a><span class="k">def</span> <span class="nf">test_counter</span><span class="p">():</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">task</span><span class="p">():</span>
+        <span class="n">counter</span><span class="o">.</span><span class="n">increment</span><span class="p">()</span>
+        <span class="n">counter</span><span class="o">.</span><span class="n">increment</span><span class="p">()</span>
+        <span class="n">counter</span><span class="o">.</span><span class="n">increment</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">await</span> <span class="n">counter</span><span class="o">.</span><span class="n">current</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&quot;we incremented three times&quot;</span>
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">task</span><span class="p">())</span></div>
 </pre></div>
 
            </div>
