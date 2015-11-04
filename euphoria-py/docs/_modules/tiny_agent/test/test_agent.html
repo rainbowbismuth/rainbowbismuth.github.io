@@ -150,8 +150,8 @@
 <span class="c"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
 <span class="kn">import</span> <span class="nn">asyncio</span>
-
 <span class="kn">from</span> <span class="nn">tiny_agent</span> <span class="kn">import</span> <span class="n">Agent</span>
+<span class="kn">import</span> <span class="nn">tiny_agent</span>
 
 
 <div class="viewcode-block" id="Counter"><a class="viewcode-back" href="../../../tiny_agent.test.html#tiny_agent.test.test_agent.Counter">[docs]</a><span class="k">class</span> <span class="nc">Counter</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
@@ -159,11 +159,11 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">Counter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_counter</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="nd">@Agent.send</span>
+    <span class="nd">@tiny_agent.send</span>
     <span class="n">async</span> <span class="k">def</span> <span class="nf">increment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_counter</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="nd">@Agent.call</span>
+    <span class="nd">@tiny_agent.call</span>
     <span class="n">async</span> <span class="k">def</span> <span class="nf">current</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counter</span>
 
@@ -171,12 +171,48 @@
 <div class="viewcode-block" id="test_counter"><a class="viewcode-back" href="../../../tiny_agent.test.html#tiny_agent.test.test_agent.test_counter">[docs]</a><span class="k">def</span> <span class="nf">test_counter</span><span class="p">():</span>
     <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+
     <span class="n">async</span> <span class="k">def</span> <span class="nf">task</span><span class="p">():</span>
         <span class="n">counter</span><span class="o">.</span><span class="n">increment</span><span class="p">()</span>
         <span class="n">counter</span><span class="o">.</span><span class="n">increment</span><span class="p">()</span>
         <span class="n">counter</span><span class="o">.</span><span class="n">increment</span><span class="p">()</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">await</span> <span class="n">counter</span><span class="o">.</span><span class="n">current</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&quot;we incremented three times&quot;</span>
+
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">task</span><span class="p">())</span>
+
+</div>
+<div class="viewcode-block" id="test_linked_task_successful"><a class="viewcode-back" href="../../../tiny_agent.test.html#tiny_agent.test.test_agent.test_linked_task_successful">[docs]</a><span class="k">def</span> <span class="nf">test_linked_task_successful</span><span class="p">():</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">mini_task</span><span class="p">():</span>
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">task</span><span class="p">():</span>
+        <span class="n">mini</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">spawn_linked_task</span><span class="p">(</span><span class="n">mini_task</span><span class="p">())</span>
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.10</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">mini</span><span class="o">.</span><span class="n">exited</span><span class="p">,</span> <span class="s">&quot;this tiny task should have exited 0.05 seconds ago&quot;</span>
+        <span class="k">assert</span> <span class="n">agent</span><span class="o">.</span><span class="n">alive</span><span class="p">,</span> <span class="s">&quot;it should have unlinked to keep the main task alive when it finished successfully&quot;</span>
+
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">task</span><span class="p">())</span>
+
+</div>
+<div class="viewcode-block" id="test_linked_task_failure"><a class="viewcode-back" href="../../../tiny_agent.test.html#tiny_agent.test.test_agent.test_linked_task_failure">[docs]</a><span class="k">def</span> <span class="nf">test_linked_task_failure</span><span class="p">():</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">mini_bomb</span><span class="p">():</span>
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;ka-boom!&quot;</span><span class="p">)</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">task</span><span class="p">():</span>
+        <span class="n">mini</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">spawn_linked_task</span><span class="p">(</span><span class="n">mini_bomb</span><span class="p">())</span>
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.10</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">mini</span><span class="o">.</span><span class="n">exited</span><span class="p">,</span> <span class="s">&quot;we exploded&quot;</span>
+        <span class="k">assert</span> <span class="n">agent</span><span class="o">.</span><span class="n">exited</span><span class="p">,</span> <span class="s">&quot;our linked task should have taken us down too&quot;</span>
+
     <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">task</span><span class="p">())</span></div>
 </pre></div>
 

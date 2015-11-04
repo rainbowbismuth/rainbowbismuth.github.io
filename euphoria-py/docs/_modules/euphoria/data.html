@@ -155,7 +155,7 @@
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">ErrorResponse</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Packet&#39;</span><span class="p">,</span> <span class="s">&#39;SessionView&#39;</span><span class="p">,</span> <span class="s">&#39;Message&#39;</span><span class="p">,</span> <span class="s">&#39;SendEvent&#39;</span><span class="p">,</span> <span class="s">&#39;SnapshotEvent&#39;</span><span class="p">,</span> <span class="s">&#39;JoinEvent&#39;</span><span class="p">,</span> <span class="s">&#39;HelloEvent&#39;</span><span class="p">,</span> <span class="s">&#39;BounceEvent&#39;</span><span class="p">,</span>
-           <span class="s">&#39;PingEvent&#39;</span><span class="p">,</span> <span class="s">&#39;NetworkEvent&#39;</span><span class="p">,</span> <span class="s">&#39;NickEvent&#39;</span><span class="p">,</span> <span class="s">&#39;SendReply&#39;</span><span class="p">,</span> <span class="s">&#39;NickReply&#39;</span><span class="p">]</span>
+           <span class="s">&#39;PingEvent&#39;</span><span class="p">,</span> <span class="s">&#39;NetworkEvent&#39;</span><span class="p">,</span> <span class="s">&#39;NickEvent&#39;</span><span class="p">,</span> <span class="s">&#39;SendReply&#39;</span><span class="p">,</span> <span class="s">&#39;NickReply&#39;</span><span class="p">,</span> <span class="s">&#39;GetMessageReply&#39;</span><span class="p">,</span> <span class="s">&#39;LogReply&#39;</span><span class="p">]</span>
 
 
 <span class="k">class</span> <span class="nc">SessionViewBased</span><span class="p">:</span>
@@ -253,6 +253,7 @@
         <span class="sd">&quot;&quot;&quot;The ID of the edit. None if this isn&#39;t an EditMessageEvent.</span>
 
 <span class="sd">        :rtype: str&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edit_id</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -605,6 +606,10 @@
     <span class="sd">&quot;&quot;&quot;A SendReply indicates that you successfully sent a message.&quot;&quot;&quot;</span>
 
 </div>
+<div class="viewcode-block" id="GetMessageReply"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.GetMessageReply">[docs]</a><span class="k">class</span> <span class="nc">GetMessageReply</span><span class="p">(</span><span class="n">MessageBased</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A GetMessageReply returns the message retrieved by a get-message command.&quot;&quot;&quot;</span>
+
+</div>
 <div class="viewcode-block" id="JoinEvent"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.JoinEvent">[docs]</a><span class="k">class</span> <span class="nc">JoinEvent</span><span class="p">(</span><span class="n">SessionViewBased</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A JoinEvent indicates a session just joined the room.&quot;&quot;&quot;</span>
 
@@ -613,6 +618,20 @@
     <span class="sd">&quot;&quot;&quot;A PartEvent indicates a session just disconnected from the room.&quot;&quot;&quot;</span>
 
 
+<div class="viewcode-block" id="LogReply"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.LogReply">[docs]</a><span class="k">class</span> <span class="nc">LogReply</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_before</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;before&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span> <span class="o">=</span> <span class="p">[</span><span class="n">Message</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">j</span><span class="p">[</span><span class="s">&#39;log&#39;</span><span class="p">]]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">before</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_before</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Message</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log</span>
+
+</div>
 <div class="viewcode-block" id="Packet"><a class="viewcode-back" href="../../euphoria.html#euphoria.data.Packet">[docs]</a><span class="k">class</span> <span class="nc">Packet</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A message received from Euphoria&quot;&quot;&quot;</span>
 
@@ -740,12 +759,22 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">join_event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JoinEvent</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">JoinEvent</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">join_event</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">part_event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartEvent</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">PartEvent</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_event</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">get_message_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GetMessageReply</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">GetMessageReply</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">log_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LogReply</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">LogReply</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
 
 </div>
 <span class="n">DATA_TYPES</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;hello-event&#39;</span><span class="p">:</span> <span class="n">HelloEvent</span><span class="p">,</span>
@@ -760,7 +789,9 @@
               <span class="s">&#39;edit-message-event&#39;</span><span class="p">:</span> <span class="n">EditMessageEvent</span><span class="p">,</span>
               <span class="s">&#39;send-reply&#39;</span><span class="p">:</span> <span class="n">SendReply</span><span class="p">,</span>
               <span class="s">&#39;join-event&#39;</span><span class="p">:</span> <span class="n">JoinEvent</span><span class="p">,</span>
-              <span class="s">&#39;part-event&#39;</span><span class="p">:</span> <span class="n">PartEvent</span><span class="p">}</span>
+              <span class="s">&#39;part-event&#39;</span><span class="p">:</span> <span class="n">PartEvent</span><span class="p">,</span>
+              <span class="s">&#39;get-message-reply&#39;</span><span class="p">:</span> <span class="n">GetMessageReply</span><span class="p">,</span>
+              <span class="s">&#39;log-reply&#39;</span><span class="p">:</span> <span class="n">LogReply</span> <span class="p">}</span>
 </pre></div>
 
            </div>

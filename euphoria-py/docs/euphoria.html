@@ -102,24 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tiny_agent.html">tiny_agent package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tiny_agent.test.html">tiny_agent.test package</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">euphoria</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">euphoria package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="euphoria.state_machines.html">euphoria.state_machines package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="euphoria.test.html">euphoria.test package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.bot">euphoria.bot module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.client">euphoria.client module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.data">euphoria.data module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria.exceptions">euphoria.exceptions module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-euphoria">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="tiny_agent.html">tiny_agent package</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">euphoria</a></li>
 </ul>
 
             
@@ -257,7 +240,7 @@
 <dl class="attribute">
 <dt id="euphoria.bot.BotConfig.services">
 <code class="descname">services</code><a class="headerlink" href="#euphoria.bot.BotConfig.services" title="Permalink to this definition">¶</a></dt>
-<dd><p>A mapping from service names, to a python module path.</p>
+<dd><p>A mapping from service names, dict contains a python module path under the &#8220;module&#8221; key.</p>
 <p>Defaults to an empty map.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -268,6 +251,16 @@
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.bot.BotConfig.services_max_restarts">
+<code class="descname">services_max_restarts</code><a class="headerlink" href="#euphoria.bot.BotConfig.services_max_restarts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.bot.BotConfig.services_max_restarts_period">
+<code class="descname">services_max_restarts_period</code><a class="headerlink" href="#euphoria.bot.BotConfig.services_max_restarts_period" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="euphoria.bot.BotConfig.uri_format">
@@ -337,6 +330,19 @@
 <dl class="method">
 <dt id="euphoria.bot.Bot.send_content">
 <code class="descname">send_content</code><span class="sig-paren">(</span><em>content</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.send_content"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.send_content" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Future</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.bot.Bot.send_get_message">
+<code class="descname">send_get_message</code><span class="sig-paren">(</span><em>id_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.send_get_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.bot.Bot.send_get_message" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -420,11 +426,6 @@
 <code class="descname">connected</code><a class="headerlink" href="#euphoria.client.Client.connected" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="euphoria.client.Client.exit">
-<code class="descname">exit</code><span class="sig-paren">(</span><em>exc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.client.Client.exit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="attribute">
 <dt id="euphoria.client.Client.handle_pings">
 <code class="descname">handle_pings</code><a class="headerlink" href="#euphoria.client.Client.handle_pings" title="Permalink to this definition">¶</a></dt>
@@ -472,6 +473,35 @@
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Future" title="(in Python v3.5)">asyncio.Future</a></p>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.client.Client.send_get_message">
+<code class="descname">send_get_message</code><span class="sig-paren">(</span><em>id_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.send_get_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.client.Client.send_get_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a get-message command to the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A future that would contain a <a class="reference internal" href="#euphoria.GetMessageReply" title="euphoria.GetMessageReply"><code class="xref py py-class docutils literal"><span class="pre">euphoria.GetMessageReply</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Future" title="(in Python v3.5)">asyncio.Future</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.client.Client.send_log_command">
+<code class="descname">send_log_command</code><span class="sig-paren">(</span><em>before</em>, <em>n=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.send_log_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.client.Client.send_log_command" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Future</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -572,6 +602,11 @@
 </dd></dl>
 
 <dl class="attribute">
+<dt id="euphoria.data.Packet.get_message_reply">
+<code class="descname">get_message_reply</code><a class="headerlink" href="#euphoria.data.Packet.get_message_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="euphoria.data.Packet.hello_event">
 <code class="descname">hello_event</code><a class="headerlink" href="#euphoria.data.Packet.hello_event" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -610,6 +645,11 @@ None if this Packet isn&#8217;t in response to a command.</p>
 <dl class="attribute">
 <dt id="euphoria.data.Packet.join_event">
 <code class="descname">join_event</code><a class="headerlink" href="#euphoria.data.Packet.join_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.Packet.log_reply">
+<code class="descname">log_reply</code><a class="headerlink" href="#euphoria.data.Packet.log_reply" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1043,6 +1083,29 @@ possible (or risk disconnection).</p>
 <p>A NickReply indicates that you successfully changed your nick.</p>
 </dd></dl>
 
+<dl class="class">
+<dt id="euphoria.data.GetMessageReply">
+<em class="property">class </em><code class="descclassname">euphoria.data.</code><code class="descname">GetMessageReply</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#GetMessageReply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.data.GetMessageReply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">euphoria.data.MessageBased</span></code></p>
+<p>A GetMessageReply returns the message retrieved by a get-message command.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.data.LogReply">
+<em class="property">class </em><code class="descclassname">euphoria.data.</code><code class="descname">LogReply</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#LogReply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.data.LogReply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="euphoria.data.LogReply.before">
+<code class="descname">before</code><a class="headerlink" href="#euphoria.data.LogReply.before" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.data.LogReply.log">
+<code class="descname">log</code><a class="headerlink" href="#euphoria.data.LogReply.log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-euphoria.exceptions">
 <span id="euphoria-exceptions-module"></span><h2>euphoria.exceptions module<a class="headerlink" href="#module-euphoria.exceptions" title="Permalink to this headline">¶</a></h2>
@@ -1129,6 +1192,11 @@ possible (or risk disconnection).</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="euphoria.Packet.get_message_reply">
+<code class="descname">get_message_reply</code><a class="headerlink" href="#euphoria.Packet.get_message_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="euphoria.Packet.hello_event">
 <code class="descname">hello_event</code><a class="headerlink" href="#euphoria.Packet.hello_event" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1167,6 +1235,11 @@ None if this Packet isn&#8217;t in response to a command.</p>
 <dl class="attribute">
 <dt id="euphoria.Packet.join_event">
 <code class="descname">join_event</code><a class="headerlink" href="#euphoria.Packet.join_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.Packet.log_reply">
+<code class="descname">log_reply</code><a class="headerlink" href="#euphoria.Packet.log_reply" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1601,6 +1674,29 @@ possible (or risk disconnection).</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="euphoria.GetMessageReply">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">GetMessageReply</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#GetMessageReply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.GetMessageReply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">euphoria.data.MessageBased</span></code></p>
+<p>A GetMessageReply returns the message retrieved by a get-message command.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.LogReply">
+<em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">LogReply</code><span class="sig-paren">(</span><em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/data.html#LogReply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.LogReply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="euphoria.LogReply.before">
+<code class="descname">before</code><a class="headerlink" href="#euphoria.LogReply.before" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.LogReply.log">
+<code class="descname">log</code><a class="headerlink" href="#euphoria.LogReply.log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="euphoria.Client">
 <em class="property">class </em><code class="descclassname">euphoria.</code><code class="descname">Client</code><span class="sig-paren">(</span><em>room</em>, <em>uri_format='wss://euphoria.io:443/room/{0}/ws'</em>, <em>handle_pings=True</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
@@ -1625,11 +1721,6 @@ possible (or risk disconnection).</p>
 <dl class="attribute">
 <dt id="euphoria.Client.connected">
 <code class="descname">connected</code><a class="headerlink" href="#euphoria.Client.connected" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="euphoria.Client.exit">
-<code class="descname">exit</code><span class="sig-paren">(</span><em>exc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.exit" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1679,6 +1770,35 @@ possible (or risk disconnection).</p>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Future" title="(in Python v3.5)">asyncio.Future</a></p>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.send_get_message">
+<code class="descname">send_get_message</code><span class="sig-paren">(</span><em>id_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.send_get_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.send_get_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a get-message command to the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A future that would contain a <a class="reference internal" href="#euphoria.GetMessageReply" title="euphoria.GetMessageReply"><code class="xref py py-class docutils literal"><span class="pre">euphoria.GetMessageReply</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html#asyncio.Future" title="(in Python v3.5)">asyncio.Future</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Client.send_log_command">
+<code class="descname">send_log_command</code><span class="sig-paren">(</span><em>before</em>, <em>n=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/client.html#Client.send_log_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Client.send_log_command" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Future</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -1856,7 +1976,7 @@ possible (or risk disconnection).</p>
 <dl class="attribute">
 <dt id="euphoria.BotConfig.services">
 <code class="descname">services</code><a class="headerlink" href="#euphoria.BotConfig.services" title="Permalink to this definition">¶</a></dt>
-<dd><p>A mapping from service names, to a python module path.</p>
+<dd><p>A mapping from service names, dict contains a python module path under the &#8220;module&#8221; key.</p>
 <p>Defaults to an empty map.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1867,6 +1987,16 @@ possible (or risk disconnection).</p>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.BotConfig.services_max_restarts">
+<code class="descname">services_max_restarts</code><a class="headerlink" href="#euphoria.BotConfig.services_max_restarts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.BotConfig.services_max_restarts_period">
+<code class="descname">services_max_restarts_period</code><a class="headerlink" href="#euphoria.BotConfig.services_max_restarts_period" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="euphoria.BotConfig.uri_format">
@@ -1936,6 +2066,19 @@ possible (or risk disconnection).</p>
 <dl class="method">
 <dt id="euphoria.Bot.send_content">
 <code class="descname">send_content</code><span class="sig-paren">(</span><em>content</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.send_content"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.send_content" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Future</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.Bot.send_get_message">
+<code class="descname">send_get_message</code><span class="sig-paren">(</span><em>id_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/bot.html#Bot.send_get_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.Bot.send_get_message" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

@@ -89,6 +89,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.nick_change">euphoria.services.nick_change module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.reminder">euphoria.services.reminder module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.botrulez">euphoria.services.botrulez module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.quote_db">euphoria.services.quote_db module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services.reddit_notify">euphoria.services.reddit_notify module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-euphoria.services">Module contents</a></li>
 </ul>
 </li>
@@ -151,7 +153,7 @@
 <p>Say &#8216;!alloc&#8217; to see some neat memory statistics</p>
 <dl class="class">
 <dt id="euphoria.services.alloc.Service">
-<em class="property">class </em><code class="descclassname">euphoria.services.alloc.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.Service" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">euphoria.services.alloc.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em>, <em>_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/alloc.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.alloc.Service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
 <dl class="method">
 <dt id="euphoria.services.alloc.Service.on_packet">
@@ -179,7 +181,7 @@
 <p>Say &#8216;!nick&#8217; new_nick to change the bots name to new_nick</p>
 <dl class="class">
 <dt id="euphoria.services.nick_change.Service">
-<em class="property">class </em><code class="descclassname">euphoria.services.nick_change.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/nick_change.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.nick_change.Service" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">euphoria.services.nick_change.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em>, <em>_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/nick_change.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.nick_change.Service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
 <dl class="method">
 <dt id="euphoria.services.nick_change.Service.on_packet">
@@ -202,7 +204,7 @@
 <p>Say &#8216;!remind 15m eat food&#8217; to be reminded in 15 minutes to eat food</p>
 <dl class="class">
 <dt id="euphoria.services.reminder.Service">
-<em class="property">class </em><code class="descclassname">euphoria.services.reminder.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reminder.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reminder.Service" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">euphoria.services.reminder.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em>, <em>_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reminder.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reminder.Service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
 <dl class="method">
 <dt id="euphoria.services.reminder.Service.on_packet">
@@ -230,7 +232,7 @@
 <p>Implements the !ping, !uptime, !kill, and !restart from <a class="reference external" href="https://github.com/jedevc/botrulez">https://github.com/jedevc/botrulez</a></p>
 <dl class="class">
 <dt id="euphoria.services.botrulez.Service">
-<em class="property">class </em><code class="descclassname">euphoria.services.botrulez.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/botrulez.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.botrulez.Service" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">euphoria.services.botrulez.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em>, <em>_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/botrulez.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.botrulez.Service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
 <dl class="method">
 <dt id="euphoria.services.botrulez.Service.on_packet">
@@ -244,6 +246,87 @@
 </tbody>
 </table>
 </dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-euphoria.services.quote_db">
+<span id="euphoria-services-quote-db-module"></span><h2>euphoria.services.quote_db module<a class="headerlink" href="#module-euphoria.services.quote_db" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="euphoria.services.quote_db.Quote">
+<em class="property">class </em><code class="descclassname">euphoria.services.quote_db.</code><code class="descname">Quote</code><span class="sig-paren">(</span><em>sender</em>, <em>content</em>, <em>time</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/quote_db.html#Quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.quote_db.Quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="euphoria.services.quote_db.Quote.content">
+<code class="descname">content</code><a class="headerlink" href="#euphoria.services.quote_db.Quote.content" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.services.quote_db.Quote.joined">
+<code class="descname">joined</code><a class="headerlink" href="#euphoria.services.quote_db.Quote.joined" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.services.quote_db.Quote.sender">
+<code class="descname">sender</code><a class="headerlink" href="#euphoria.services.quote_db.Quote.sender" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="euphoria.services.quote_db.Quote.time">
+<code class="descname">time</code><a class="headerlink" href="#euphoria.services.quote_db.Quote.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.services.quote_db.Service">
+<em class="property">class </em><code class="descclassname">euphoria.services.quote_db.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em>, <em>_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/quote_db.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.quote_db.Service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+<dl class="method">
+<dt id="euphoria.services.quote_db.Service.find">
+<code class="descname">find</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.services.quote_db.Service.find" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="euphoria.services.quote_db.Service.on_packet">
+<code class="descname">on_packet</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#euphoria.services.quote_db.Service.on_packet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.5)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-euphoria.services.reddit_notify">
+<span id="euphoria-services-reddit-notify-module"></span><h2>euphoria.services.reddit_notify module<a class="headerlink" href="#module-euphoria.services.reddit_notify" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="euphoria.services.reddit_notify.Service">
+<em class="property">class </em><code class="descclassname">euphoria.services.reddit_notify.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>bot</em>, <em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reddit_notify.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reddit_notify.Service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tiny_agent.html#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="euphoria.services.reddit_notify.SubredditWatcher">
+<em class="property">class </em><code class="descclassname">euphoria.services.reddit_notify.</code><code class="descname">SubredditWatcher</code><span class="sig-paren">(</span><em>reddit</em>, <em>subreddit_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reddit_notify.html#SubredditWatcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reddit_notify.SubredditWatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.5)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="euphoria.services.reddit_notify.SubredditWatcher.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>out</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/euphoria/services/reddit_notify.html#SubredditWatcher.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#euphoria.services.reddit_notify.SubredditWatcher.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

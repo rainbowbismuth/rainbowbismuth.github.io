@@ -99,21 +99,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tiny_agent.test.html">tiny_agent.test package</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">euphoria</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="euphoria.html">euphoria package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">tiny_agent package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="tiny_agent.test.html">tiny_agent.test package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-tiny_agent.agent">tiny_agent.agent module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-tiny_agent.supervisor">tiny_agent.supervisor module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-tiny_agent">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">euphoria</a></li>
 </ul>
 
             
@@ -195,11 +181,6 @@
 <code class="descname">bidirectional_link</code><span class="sig-paren">(</span><em>to</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.bidirectional_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.Agent.bidirectional_link" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="classmethod">
-<dt id="tiny_agent.agent.Agent.call">
-<em class="property">classmethod </em><code class="descname">call</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.Agent.call" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="method">
 <dt id="tiny_agent.agent.Agent.exit">
 <code class="descname">exit</code><span class="sig-paren">(</span><em>exc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.Agent.exit" title="Permalink to this definition">¶</a></dt>
@@ -220,24 +201,53 @@
 <code class="descname">monitor</code><span class="sig-paren">(</span><em>monitored</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.monitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.Agent.monitor" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="classmethod">
-<dt id="tiny_agent.agent.Agent.send">
-<em class="property">classmethod </em><code class="descname">send</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.Agent.send" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="method">
+<dt id="tiny_agent.agent.Agent.spawn_linked_task">
+<code class="descname">spawn_linked_task</code><span class="sig-paren">(</span><em>coro_or_future</em>, <em>unlink_on_success=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.spawn_linked_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.Agent.spawn_linked_task" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#tiny_agent.agent.LinkedTask" title="tiny_agent.agent.LinkedTask"><code class="xref py py-class docutils literal"><span class="pre">LinkedTask</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="tiny_agent.agent.Agent.task">
 <code class="descname">task</code><a class="headerlink" href="#tiny_agent.agent.Agent.task" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="tiny_agent.agent.Agent.unlink">
+<code class="descname">unlink</code><span class="sig-paren">(</span><em>from_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.unlink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.Agent.unlink" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
+
+<dl class="class">
+<dt id="tiny_agent.agent.LinkedTask">
+<em class="property">class </em><code class="descclassname">tiny_agent.agent.</code><code class="descname">LinkedTask</code><span class="sig-paren">(</span><em>linked_to</em>, <em>coro_or_future</em>, <em>unlink_on_success=True</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#LinkedTask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.LinkedTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tiny_agent.agent.send">
+<code class="descclassname">tiny_agent.agent.</code><code class="descname">send</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tiny_agent.agent.call">
+<code class="descclassname">tiny_agent.agent.</code><code class="descname">call</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.agent.call" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-tiny_agent.supervisor">
 <span id="tiny-agent-supervisor-module"></span><h2>tiny_agent.supervisor module<a class="headerlink" href="#module-tiny_agent.supervisor" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="tiny_agent.supervisor.SupervisorOneForOne">
-<em class="property">class </em><code class="descclassname">tiny_agent.supervisor.</code><code class="descname">SupervisorOneForOne</code><span class="sig-paren">(</span><em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/supervisor.html#SupervisorOneForOne"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.supervisor.SupervisorOneForOne" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">tiny_agent.supervisor.</code><code class="descname">SupervisorOneForOne</code><span class="sig-paren">(</span><em>period=60.0</em>, <em>max_restarts=3</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/supervisor.html#SupervisorOneForOne"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.supervisor.SupervisorOneForOne" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
 <dl class="method">
 <dt id="tiny_agent.supervisor.SupervisorOneForOne.add_child">
@@ -354,11 +364,6 @@
 <code class="descname">bidirectional_link</code><span class="sig-paren">(</span><em>to</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.bidirectional_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.Agent.bidirectional_link" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="classmethod">
-<dt id="tiny_agent.Agent.call">
-<em class="property">classmethod </em><code class="descname">call</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.Agent.call" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="method">
 <dt id="tiny_agent.Agent.exit">
 <code class="descname">exit</code><span class="sig-paren">(</span><em>exc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.Agent.exit" title="Permalink to this definition">¶</a></dt>
@@ -379,21 +384,50 @@
 <code class="descname">monitor</code><span class="sig-paren">(</span><em>monitored</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.monitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.Agent.monitor" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="classmethod">
-<dt id="tiny_agent.Agent.send">
-<em class="property">classmethod </em><code class="descname">send</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.Agent.send" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="method">
+<dt id="tiny_agent.Agent.spawn_linked_task">
+<code class="descname">spawn_linked_task</code><span class="sig-paren">(</span><em>coro_or_future</em>, <em>unlink_on_success=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.spawn_linked_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.Agent.spawn_linked_task" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#tiny_agent.agent.LinkedTask" title="tiny_agent.agent.LinkedTask"><code class="xref py py-class docutils literal"><span class="pre">LinkedTask</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="tiny_agent.Agent.task">
 <code class="descname">task</code><a class="headerlink" href="#tiny_agent.Agent.task" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="tiny_agent.Agent.unlink">
+<code class="descname">unlink</code><span class="sig-paren">(</span><em>from_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#Agent.unlink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.Agent.unlink" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
+<dt id="tiny_agent.LinkedTask">
+<em class="property">class </em><code class="descclassname">tiny_agent.</code><code class="descname">LinkedTask</code><span class="sig-paren">(</span><em>linked_to</em>, <em>coro_or_future</em>, <em>unlink_on_success=True</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#LinkedTask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.LinkedTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tiny_agent.send">
+<code class="descclassname">tiny_agent.</code><code class="descname">send</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tiny_agent.call">
+<code class="descclassname">tiny_agent.</code><code class="descname">call</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/agent.html#call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.call" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
 <dt id="tiny_agent.SupervisorOneForOne">
-<em class="property">class </em><code class="descclassname">tiny_agent.</code><code class="descname">SupervisorOneForOne</code><span class="sig-paren">(</span><em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/supervisor.html#SupervisorOneForOne"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.SupervisorOneForOne" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">tiny_agent.</code><code class="descname">SupervisorOneForOne</code><span class="sig-paren">(</span><em>period=60.0</em>, <em>max_restarts=3</em>, <em>loop=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tiny_agent/supervisor.html#SupervisorOneForOne"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiny_agent.SupervisorOneForOne" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#tiny_agent.agent.Agent" title="tiny_agent.agent.Agent"><code class="xref py py-class docutils literal"><span class="pre">tiny_agent.agent.Agent</span></code></a></p>
 <dl class="method">
 <dt id="tiny_agent.SupervisorOneForOne.add_child">

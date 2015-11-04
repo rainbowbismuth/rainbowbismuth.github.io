@@ -151,15 +151,15 @@
 
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-
 <span class="kn">from</span> <span class="nn">tiny_agent</span> <span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">SupervisorOneForOne</span><span class="p">,</span> <span class="n">SupervisorOneForAll</span><span class="p">,</span> <span class="n">Restart</span><span class="p">,</span> <span class="n">TooManyRestarts</span>
+<span class="kn">import</span> <span class="nn">tiny_agent</span>
 
 
 <div class="viewcode-block" id="Bomb"><a class="viewcode-back" href="../../../tiny_agent.test.html#tiny_agent.test.test_supervisor.Bomb">[docs]</a><span class="k">class</span> <span class="nc">Bomb</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Bomb</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
 
-    <span class="nd">@Agent.send</span>
+    <span class="nd">@tiny_agent.send</span>
     <span class="n">async</span> <span class="k">def</span> <span class="nf">explode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;boom!&quot;</span><span class="p">)</span>
 
@@ -181,6 +181,43 @@
         <span class="k">assert</span> <span class="n">fragile</span><span class="o">.</span><span class="n">alive</span><span class="p">,</span> <span class="s">&quot;our fragile should be okay because its a one-for-one supervisor&quot;</span>
         <span class="n">new_bomb</span> <span class="o">=</span> <span class="n">await</span> <span class="n">one_for_one</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;bomb&quot;</span><span class="p">)</span>
         <span class="k">assert</span> <span class="n">new_bomb</span><span class="o">.</span><span class="n">alive</span><span class="p">,</span> <span class="s">&quot;we should have a new bomb that hasn&#39;t exploded&quot;</span>
+
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">task</span><span class="p">())</span>
+
+</div>
+<div class="viewcode-block" id="test_one_for_one_period_reset"><a class="viewcode-back" href="../../../tiny_agent.test.html#tiny_agent.test.test_supervisor.test_one_for_one_period_reset">[docs]</a><span class="k">def</span> <span class="nf">test_one_for_one_period_reset</span><span class="p">():</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="n">one_for_one</span> <span class="o">=</span> <span class="n">SupervisorOneForOne</span><span class="p">(</span><span class="n">max_restarts</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+    <span class="n">one_for_one</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="s">&quot;bomb&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Bomb</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">))</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">task</span><span class="p">():</span>
+        <span class="n">bomb</span> <span class="o">=</span> <span class="n">await</span> <span class="n">one_for_one</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;bomb&quot;</span><span class="p">)</span>
+        <span class="n">bomb</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span>
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
+        <span class="n">bomb</span> <span class="o">=</span> <span class="n">await</span> <span class="n">one_for_one</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;bomb&quot;</span><span class="p">)</span>
+        <span class="n">bomb</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span>
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
+        <span class="n">bomb</span> <span class="o">=</span> <span class="n">await</span> <span class="n">one_for_one</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;bomb&quot;</span><span class="p">)</span>
+        <span class="n">bomb</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span>
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">one_for_one</span><span class="o">.</span><span class="n">alive</span><span class="p">,</span> <span class="s">&quot;we&#39;re not dead because the period elapses and resets the restart counter&quot;</span>
+
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">task</span><span class="p">())</span>
+
+</div>
+<div class="viewcode-block" id="test_one_for_one_period_failure"><a class="viewcode-back" href="../../../tiny_agent.test.html#tiny_agent.test.test_supervisor.test_one_for_one_period_failure">[docs]</a><span class="k">def</span> <span class="nf">test_one_for_one_period_failure</span><span class="p">():</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="n">one_for_one</span> <span class="o">=</span> <span class="n">SupervisorOneForOne</span><span class="p">(</span><span class="n">max_restarts</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span>
+    <span class="n">one_for_one</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="s">&quot;bomb&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Bomb</span><span class="p">(</span><span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">))</span>
+
+    <span class="n">async</span> <span class="k">def</span> <span class="nf">task</span><span class="p">():</span>
+        <span class="n">bomb</span> <span class="o">=</span> <span class="n">await</span> <span class="n">one_for_one</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;bomb&quot;</span><span class="p">)</span>
+        <span class="n">bomb</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span>
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.10</span><span class="p">)</span>
+        <span class="n">bomb</span> <span class="o">=</span> <span class="n">await</span> <span class="n">one_for_one</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;bomb&quot;</span><span class="p">)</span>
+        <span class="n">bomb</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span>
+        <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.10</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">one_for_one</span><span class="o">.</span><span class="n">exited</span><span class="p">,</span> <span class="s">&quot;we&#39;re dead because we exploded twice too fast.&quot;</span>
 
     <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">task</span><span class="p">())</span>
 
