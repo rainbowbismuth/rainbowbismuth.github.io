@@ -1,0 +1,12 @@
+[root]
+name = "dummy-crate"
+version = "0.1.0"
+dependencies = [
+ "hamt 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "hamt"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
